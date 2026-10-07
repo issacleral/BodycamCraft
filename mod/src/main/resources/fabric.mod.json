@@ -4,7 +4,7 @@
 	"version": "${version}",
 	"name": "BodycamCraft",
 	"description": "Minecraft survival played as Bodycam footage, with the guns and sounds from your own copy of Bodycam.",
-	"authors": ["Rodrigo Salvatierra Calla"],
+	"authors": ["issac_leral"],
 	"contact": {},
 	"license": "MIT",
 	"environment": "*",
