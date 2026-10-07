@@ -102,7 +102,7 @@ Minecraft survival played as bodycam footage, with the real Glock 17 and gun sou
 You need Minecraft: Java Edition and Bodycam installed on Steam. Nothing of Bodycam's is in this package.
 
 Melty installs and starts everything. The first time, Prism Launcher opens once: sign in with the Microsoft account
-that owns Minecraft. Then create a single-player Survival world; you start with a Glock 17 and four magazines.
+that owns Minecraft. Then create a single-player Survival world; you start with a Glock 17, an M4A1 and spare magazines.
 
 Left click fires. Hold right click to aim. R reloads. V turns the bodycam view on and off.
 Craft magazines from an iron ingot, a copper ingot and gunpowder.

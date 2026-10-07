@@ -8,9 +8,9 @@
 
 ## De qué va
 
-Apareces en un mundo normal de supervivencia de Minecraft con la Glock 17 de Bodycam en la mano y cuatro cargadores. Todo el juego se ve como una cámara corporal.
+Apareces en un mundo normal de supervivencia de Minecraft con la Glock 17 y el M4A1 de Bodycam y cargadores para los dos. Todo el juego se ve como una cámara corporal.
 
-- **La Glock de verdad.** El modelo, la textura, los disparos, el clic en vacío, los sonidos de recarga y el cargador de 17 balas se leen de tu copia de Bodycam mientras juegas. El mod no incluye ningún archivo de Bodycam.
+- **Las armas de verdad.** La Glock 17 (semiautomática, 17 balas) y el M4A1 (automático, 30 balas): sus modelos, texturas, disparos, sonidos de recarga y tamaño de cargador se leen de tu copia de Bodycam mientras juegas. El mod no incluye ningún archivo de Bodycam.
 - **Cámara en el pecho.** Lente de ojo de pez con esquinas oscuras, grano, balanceo al andar y marca de grabación. No hay mira en pantalla; la barra de objetos y los corazones solo aparecen un momento al cambiar de objeto o recibir daño.
 - **Manejo de arma al estilo Bodycam.** El arma se mueve libremente dentro de un pequeño margen antes de que gire la cámara, las balas van adonde apunta el arma (no al centro de la pantalla), el retroceso la levanta y la recarga dura lo mismo que el sonido de recarga de Bodycam.
 - **Minecraft sigue siendo Minecraft.** El mundo, los mobs, construir y fabricar no cambian.
@@ -37,7 +37,7 @@ Apareces en un mundo normal de supervivencia de Minecraft con la Glock 17 de Bod
 
 ## Cómo se usa
 
-Crea un mundo de un jugador en Supervivencia. Empiezas con la Glock cargada y cuatro cargadores.
+Crea un mundo de un jugador en Supervivencia. Empiezas con la Glock y el M4A1 cargados y cargadores de repuesto para los dos.
 
 | Control | Qué hace |
 |---|---|
@@ -46,14 +46,15 @@ Crea un mundo de un jugador en Supervivencia. Empiezas con la Glock cargada y cu
 | R | Recargar (gasta un cargador) |
 | V | Activar o desactivar la vista de bodycam |
 
-- **Más cargadores:** lingote de hierro + lingote de cobre + pólvora, sin forma, en cualquier mesa de trabajo.
+- **Más cargadores (sin forma, en cualquier mesa de trabajo):** Glock: lingote de hierro + lingote de cobre + pólvora. M4A1: 2 lingotes de hierro + lingote de cobre + pólvora.
+- **Fabricar un M4A1:** bloque de hierro + 2 lingotes de hierro + lingote de cobre + palo.
 - **Puertas y cofres:** el clic derecho sigue abriéndolos aunque lleves el arma.
 - **Sin mira:** apunta con el arma. Dos tiros al cuerpo tumban a un zombi; a la cabeza hace más daño.
 - Las teclas se pueden cambiar en Opciones → Controles → BodycamCraft.
 
 ## Estado y límites
 
-Primera versión, un solo jugador y una sola arma.
+Un solo jugador y dos armas (Glock 17 y M4A1).
 
 - No se ven manos ni brazos sujetando el arma.
 - El movimiento de recarga y de retroceso es propio del mod, no las animaciones de Bodycam.
@@ -85,9 +86,9 @@ Bodycam es de Reissad Studio y Minecraft es de Mojang/Microsoft. Este proyecto n
 
 ## English
 
-BodycamCraft drops you into a normal Minecraft survival world holding Bodycam's Glock 17 with four magazines, and shows the whole game as bodycam footage.
+BodycamCraft drops you into a normal Minecraft survival world holding Bodycam's Glock 17 and M4A1, and shows the whole game as bodycam footage.
 
-- **The real Glock.** Its model, texture, gunshots, dry fire, reload sounds and 17-round magazine are read from your own copy of Bodycam while the game runs. The mod ships nothing of Bodycam's.
+- **The real guns.** The Glock 17 (semi-auto, 17 rounds) and the M4A1 (full auto, 30 rounds): models, textures, gunshots, reload sounds and magazine sizes are read from your own copy of Bodycam while the game runs. The mod ships nothing of Bodycam's.
 - **Chest camera.** Fisheye lens with dark corners, grain, sway and a recording stamp. No crosshair; the hotbar and hearts only peek in after a slot change or a hit.
 - **Bodycam-style handling.** The gun aims freely inside a small box before the camera turns, shots go where the gun points, and a reload takes as long as Bodycam's own reload sound.
 
@@ -97,6 +98,6 @@ BodycamCraft drops you into a normal Minecraft survival world holding Bodycam's 
 
 **Controls:** left click fires, hold right click to aim, **R** reloads, **V** toggles the bodycam view. Craft magazines from an iron ingot, a copper ingot and gunpowder.
 
-**Limits:** single player, one gun, no hands on the gun; reload and recoil motion and the damage numbers are this mod's own.
+**Limits:** single player, two guns, no hands on the gun; reload and recoil motion and the damage numbers are this mod's own.
 
 MIT licensed. Not affiliated with Reissad Studio, Mojang or Microsoft.

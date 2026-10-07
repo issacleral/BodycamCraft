@@ -123,6 +123,111 @@
       "volume": 0.9,
       "pitch_jitter": 0.0,
       "verified": "all paths decoded at game start (37 sounds loaded); played in the autotest without errors; not yet listened to by a person"
+    },
+    {
+      "id": "m4_fire_core",
+      "paths": [
+        "Bodycam/Content/Audio/Guns/Wav/M4/Originals/Bodycam_Guns_Originals_m4_Close"
+      ],
+      "volume": 0.9,
+      "pitch_jitter": 0.03,
+      "verified": "all paths decoded at game start (70 sounds loaded); played in the autotest without errors; not yet listened to by a person"
+    },
+    {
+      "id": "rifle_fire_punch_outdoor",
+      "paths": [
+        "Bodycam/Content/Audio/Guns/Wav/Riffle/Punch/CLEAN/Bodycam_Guns_Rifle_Punch_Outside_Close_CLEAN_001_V1",
+        "Bodycam/Content/Audio/Guns/Wav/Riffle/Punch/CLEAN/Bodycam_Guns_Rifle_Punch_Outside_Close_CLEAN_002_V1",
+        "Bodycam/Content/Audio/Guns/Wav/Riffle/Punch/CLEAN/Bodycam_Guns_Rifle_Punch_Outside_Close_CLEAN_003_V1",
+        "Bodycam/Content/Audio/Guns/Wav/Riffle/Punch/CLEAN/Bodycam_Guns_Rifle_Punch_Outside_Close_CLEAN_004_V1"
+      ],
+      "volume": 0.9,
+      "pitch_jitter": 0.03,
+      "verified": "all paths decoded at game start (70 sounds loaded); played in the autotest without errors; not yet listened to by a person"
+    },
+    {
+      "id": "rifle_fire_punch_indoor",
+      "paths": [
+        "Bodycam/Content/Audio/Guns/Wav/Riffle/Punch/CLEAN/Bodycam_Guns_Rifle_Punch_Small_Close_CLEAN_001_V1",
+        "Bodycam/Content/Audio/Guns/Wav/Riffle/Punch/CLEAN/Bodycam_Guns_Rifle_Punch_Small_Close_CLEAN_002_V1",
+        "Bodycam/Content/Audio/Guns/Wav/Riffle/Punch/CLEAN/Bodycam_Guns_Rifle_Punch_Small_Close_CLEAN_003_V1",
+        "Bodycam/Content/Audio/Guns/Wav/Riffle/Punch/CLEAN/Bodycam_Guns_Rifle_Punch_Small_Close_CLEAN_004_V1"
+      ],
+      "volume": 0.9,
+      "pitch_jitter": 0.03,
+      "verified": "all paths decoded at game start (70 sounds loaded); played in the autotest without errors; not yet listened to by a person"
+    },
+    {
+      "id": "rifle_fire_tail_outdoor",
+      "paths": [
+        "Bodycam/Content/Audio/Guns/Wav/Riffle/Tails/Clean/Bodycam_Guns_Rifle_Tails_Outside_Close_CLEAN_001_V1",
+        "Bodycam/Content/Audio/Guns/Wav/Riffle/Tails/Clean/Bodycam_Guns_Rifle_Tails_Outside_Close_CLEAN_002_V1",
+        "Bodycam/Content/Audio/Guns/Wav/Riffle/Tails/Clean/Bodycam_Guns_Rifle_Tails_Outside_Close_CLEAN_003_V1",
+        "Bodycam/Content/Audio/Guns/Wav/Riffle/Tails/Clean/Bodycam_Guns_Rifle_Tails_Outside_Close_CLEAN_004_V1"
+      ],
+      "volume": 0.8,
+      "pitch_jitter": 0.02,
+      "verified": "all paths decoded at game start (70 sounds loaded); played in the autotest without errors; not yet listened to by a person"
+    },
+    {
+      "id": "rifle_fire_tail_indoor",
+      "paths": [
+        "Bodycam/Content/Audio/Guns/Wav/Riffle/Tails/Clean/Bodycam_Guns_Rifle_Tails_Small_Close_CLEAN_001_V1",
+        "Bodycam/Content/Audio/Guns/Wav/Riffle/Tails/Clean/Bodycam_Guns_Rifle_Tails_Small_Close_CLEAN_002_V1",
+        "Bodycam/Content/Audio/Guns/Wav/Riffle/Tails/Clean/Bodycam_Guns_Rifle_Tails_Small_Close_CLEAN_003_V1",
+        "Bodycam/Content/Audio/Guns/Wav/Riffle/Tails/Clean/Bodycam_Guns_Rifle_Tails_Small_Close_CLEAN_004_V1"
+      ],
+      "volume": 0.8,
+      "pitch_jitter": 0.02,
+      "verified": "all paths decoded at game start (70 sounds loaded); played in the autotest without errors; not yet listened to by a person"
+    },
+    {
+      "id": "rifle_mech",
+      "paths": [
+        "Bodycam/Content/Audio/Guns/Wav/SKR/Mech/Bodycam_Guns_Rifle_SKR_Mech_001",
+        "Bodycam/Content/Audio/Guns/Wav/SKR/Mech/Bodycam_Guns_Rifle_SKR_Mech_002",
+        "Bodycam/Content/Audio/Guns/Wav/SKR/Mech/Bodycam_Guns_Rifle_SKR_Mech_003",
+        "Bodycam/Content/Audio/Guns/Wav/SKR/Mech/Bodycam_Guns_Rifle_SKR_Mech_004",
+        "Bodycam/Content/Audio/Guns/Wav/SKR/Mech/Bodycam_Guns_Rifle_SKR_Mech_005",
+        "Bodycam/Content/Audio/Guns/Wav/SKR/Mech/Bodycam_Guns_Rifle_SKR_Mech_006",
+        "Bodycam/Content/Audio/Guns/Wav/SKR/Mech/Bodycam_Guns_Rifle_SKR_Mech_007",
+        "Bodycam/Content/Audio/Guns/Wav/SKR/Mech/Bodycam_Guns_Rifle_SKR_Mech_008",
+        "Bodycam/Content/Audio/Guns/Wav/SKR/Mech/Bodycam_Guns_Rifle_SKR_Mech_009",
+        "Bodycam/Content/Audio/Guns/Wav/SKR/Mech/Bodycam_Guns_Rifle_SKR_Mech_010"
+      ],
+      "volume": 0.5,
+      "pitch_jitter": 0.04,
+      "verified": "all paths decoded at game start (70 sounds loaded); played in the autotest without errors; not yet listened to by a person"
+    },
+    {
+      "id": "m4_reload_empty",
+      "paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Sound/M4A1_reloadEmpty_Calm01",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Sound/M4A1_reloadEmpty_Calm02_New",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Sound/M4A1_reloadEmpty_Calm03"
+      ],
+      "volume": 1.0,
+      "pitch_jitter": 0.0,
+      "verified": "all paths decoded at game start (70 sounds loaded); played in the autotest without errors; not yet listened to by a person"
+    },
+    {
+      "id": "m4_reload_partial",
+      "paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Sound/M4A1_reloadPartial_Calm01",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Sound/M4A1_reloadPartial_Calm02"
+      ],
+      "volume": 1.0,
+      "pitch_jitter": 0.0,
+      "verified": "all paths decoded at game start (70 sounds loaded); played in the autotest without errors; not yet listened to by a person"
+    },
+    {
+      "id": "m4_equip",
+      "paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Sound/M4A1_Equip_1"
+      ],
+      "volume": 0.9,
+      "pitch_jitter": 0.0,
+      "verified": "all paths decoded at game start (70 sounds loaded); played in the autotest without errors; not yet listened to by a person"
     }
   ]
 }

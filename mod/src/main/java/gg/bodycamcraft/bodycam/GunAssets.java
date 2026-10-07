@@ -8,7 +8,7 @@ import java.util.Locale;
 /** Puts a Bodycam weapon together from its frame, the parts attached to its sockets, and its base colour texture. */
 public final class GunAssets {
 	/** One row of the parts sheet: which mesh, and the skeleton socket it hangs on ("" for the frame itself). */
-	public record PartDef(String id, String mesh, boolean skeletal, String socket) {
+	public record PartDef(String id, String mesh, boolean skeletal, String socket, String socketSkeleton) {
 	}
 
 	/** A mesh and where its origin sits in the space of the weapon, in Unreal units (cm). */
@@ -37,7 +37,8 @@ public final class GunAssets {
 			MeshReader.Mesh mesh = def.skeletal ? MeshReader.readSkeletal(pak, def.mesh) : MeshReader.readStatic(pak, def.mesh);
 			float[] offset = new float[3];
 			if (!def.socket.isEmpty()) {
-				double[] at = skeleton.position(def.socket);
+				SkeletonReader.Skeleton owner = def.socketSkeleton.isEmpty() ? skeleton : SkeletonReader.read(pak, def.socketSkeleton);
+				double[] at = owner.position(def.socket);
 				offset = new float[] {(float) at[0], (float) at[1], (float) at[2]};
 			}
 			parts.add(new Part(def.id, mesh, offset));

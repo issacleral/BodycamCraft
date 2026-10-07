@@ -20,7 +20,7 @@
     "spread_ads_deg": "cone half angle while aiming",
     "recoil_pitch_deg": "camera kick up per shot",
     "recoil_yaw_deg": "max sideways kick per shot",
-    "slide_part": "ref parts.id",
+    "slide_part": "ref parts.id, or empty when nothing cycles",
     "slide_travel_cm": "how far it cycles back",
     "magazine_part": "ref parts.id",
     "texture_size": "pixels",
@@ -29,7 +29,12 @@
     "sound_dry": "ref sounds.id",
     "sound_reload_empty": "ref sounds.id",
     "sound_reload_partial": "ref sounds.id",
-    "sound_equip": "ref sounds.id"
+    "sound_equip": "ref sounds.id",
+    "sight_part": "ref parts.id whose top is the sight line and whose rear is nearest the eye",
+    "hip_right": "metres: gun origin right of the camera at the hip",
+    "hip_up": "metres up (negative is down)",
+    "hip_forward": "metres in front",
+    "aim_forward": "metres from the eye to the rear of sight_part when aiming"
   },
   "rows": [
     {
@@ -72,7 +77,59 @@
       "sound_reload_empty": "glock_reload_empty",
       "sound_reload_partial": "glock_reload_partial",
       "sound_equip": "glock_equip",
-      "verified": "model, texture, sockets and mag_row checked against the installed game with the Dump test (2026-10-07); damage, spread and recoil are this mod\u2019s own tuning for Minecraft mobs (12 so two body shots drop a zombie through its 2 armour)"
+      "verified": "model, texture, sockets and mag_row checked against the installed game with the Dump test (2026-10-07); damage, spread and recoil are this mod\u2019s own tuning for Minecraft mobs (12 so two body shots drop a zombie through its 2 armour)",
+      "sight_part": "glock17_slide",
+      "hip_right": 0.1,
+      "hip_up": -0.115,
+      "hip_forward": 0.38,
+      "aim_forward": 0.33
+    },
+    {
+      "id": "m4a1",
+      "name": "M4A1",
+      "item": "m4a1",
+      "magazine_item": "m4a1_magazine",
+      "skeleton": "Bodycam/Content/BodycamWeapons/Guns/M4A1/M4A1A_Skeleton",
+      "material": "Bodycam/Content/BodycamWeapons/Guns/M4A1/M_M4A1",
+      "muzzle_socket": "Barrel",
+      "mag_table": "Bodycam/Content/BodycamWeapons/Core/DATA/DT/DT_MAG",
+      "mag_row": "M4A1",
+      "mag_fallback": 30,
+      "fire_mode": "auto",
+      "fire_interval_ticks": 2,
+      "damage": 9.0,
+      "headshot_multiplier": 2.5,
+      "range_blocks": 128,
+      "spread_hip_deg": 2.0,
+      "spread_ads_deg": 0.25,
+      "recoil_pitch_deg": 1.3,
+      "recoil_yaw_deg": 0.6,
+      "slide_part": "",
+      "slide_travel_cm": 0.0,
+      "magazine_part": "m4a1_magazine",
+      "sight_part": "m4a1_frame",
+      "hip_right": 0.11,
+      "hip_up": -0.2,
+      "hip_forward": 0.3,
+      "aim_forward": 0.03,
+      "texture_size": 512,
+      "sound_fire": [
+        "m4_fire_core",
+        "rifle_fire_punch_outdoor",
+        "rifle_fire_tail_outdoor",
+        "rifle_mech"
+      ],
+      "sound_fire_indoor": [
+        "m4_fire_core",
+        "rifle_fire_punch_indoor",
+        "rifle_fire_tail_indoor",
+        "rifle_mech"
+      ],
+      "sound_dry": "rifle_mech",
+      "sound_reload_empty": "m4_reload_empty",
+      "sound_reload_partial": "m4_reload_partial",
+      "sound_equip": "m4_equip",
+      "verified": "model, texture, sockets and mag_row (30) read in game; in-game autotest 2026-10-07 (PASS): automatic fire used 6 rounds; hip and aimed screenshots looked at; damage, spread, recoil and hold are this mod\u2019s own tuning; the aimed view is rough"
     }
   ]
 }

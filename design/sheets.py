@@ -109,8 +109,9 @@ def preflight(sheets, quiet=False):
                     problems.append("%s.%s: unfilled" % (where, column))
                     continue
                 values = value if isinstance(value, list) else [value]
+                values = [v for v in values if not (may_be_empty and v == "")]
                 if kind.startswith("ref "):
-                    target = kind.split()[1].split(".")[0]
+                    target = kind.split()[1].split(".")[0].rstrip(",")
                     for v in values:
                         if v not in keys.get(target, ()):
                             problems.append("%s.%s: '%s' is not a row of %s" % (where, column, v, target))
@@ -190,23 +191,23 @@ def gen(sheets):
             "\t\t\tfloat damage, float headshotMultiplier, int rangeBlocks, float spreadHipDeg, float spreadAdsDeg,",
             "\t\t\tfloat recoilPitchDeg, float recoilYawDeg, String slidePart, float slideTravelCm, String magazinePart,",
             "\t\t\tint textureSize, List<String> soundFire, List<String> soundFireIndoor, String soundDry,",
-            "\t\t\tString soundReloadEmpty, String soundReloadPartial, String soundEquip) {", "\t}", ""]
+            "\t\t\tString soundReloadEmpty, String soundReloadPartial, String soundEquip, String sightPart, float hipRight, float hipUp, float hipForward, float aimForward) {", "\t}", ""]
     out.append("\tpublic static final List<Weapon> WEAPONS = List.of(")
     rows = []
     for w in weapons:
-        rows.append("\t\t\tnew Weapon(%s, %s, %s, %s, %s, %s,\n\t\t\t\t\t%s, %s, %s, %d, %s, %d,\n\t\t\t\t\t%sf, %sf, %d, %sf, %sf,\n\t\t\t\t\t%sf, %sf, %s, %sf, %s,\n\t\t\t\t\t%d, %s, %s, %s,\n\t\t\t\t\t%s, %s, %s)" % (
+        rows.append("\t\t\tnew Weapon(%s, %s, %s, %s, %s, %s,\n\t\t\t\t\t%s, %s, %s, %d, %s, %d,\n\t\t\t\t\t%sf, %sf, %d, %sf, %sf,\n\t\t\t\t\t%sf, %sf, %s, %sf, %s,\n\t\t\t\t\t%d, %s, %s, %s,\n\t\t\t\t\t%s, %s, %s, %s, %sf, %sf, %sf, %sf)" % (
             jstr(w["id"]), jstr(w["name"]), jstr(w["item"]), jstr(w["magazine_item"]), jstr(w["skeleton"]), jstr(w["material"]),
             jstr(w["muzzle_socket"]), jstr(w["mag_table"]), jstr(w["mag_row"]), w["mag_fallback"], "true" if w["fire_mode"] == "auto" else "false", w["fire_interval_ticks"],
             w["damage"], w["headshot_multiplier"], w["range_blocks"], w["spread_hip_deg"], w["spread_ads_deg"],
             w["recoil_pitch_deg"], w["recoil_yaw_deg"], jstr(w["slide_part"]), w["slide_travel_cm"], jstr(w["magazine_part"]),
             w["texture_size"], jlist(w["sound_fire"]), jlist(w["sound_fire_indoor"]), jstr(w["sound_dry"]),
-            jstr(w["sound_reload_empty"]), jstr(w["sound_reload_partial"]), jstr(w["sound_equip"])))
+            jstr(w["sound_reload_empty"]), jstr(w["sound_reload_partial"]), jstr(w["sound_equip"]), jstr(w["sight_part"]), w["hip_right"], w["hip_up"], w["hip_forward"], w["aim_forward"]))
     out.append(",\n".join(rows) + ");")
     out.append("")
 
-    out += ["\tpublic record Part(String id, String weapon, String mesh, boolean skeletal, String socket, String motion) {", "\t}", ""]
+    out += ["\tpublic record Part(String id, String weapon, String mesh, boolean skeletal, String socket, String motion, String socketSkeleton) {", "\t}", ""]
     out.append("\tpublic static final List<Part> PARTS = List.of(")
-    out.append(",\n".join("\t\t\tnew Part(%s, %s, %s, %s, %s, %s)" % (jstr(p["id"]), jstr(p["weapon"]), jstr(p["mesh"]), "true" if p["kind"] == "skeletal" else "false", jstr(p["socket"]), jstr(p["motion"])) for p in parts) + ");")
+    out.append(",\n".join("\t\t\tnew Part(%s, %s, %s, %s, %s, %s, %s)" % (jstr(p["id"]), jstr(p["weapon"]), jstr(p["mesh"]), "true" if p["kind"] == "skeletal" else "false", jstr(p["socket"]), jstr(p["motion"]), jstr(p["socket_skeleton"])) for p in parts) + ");")
     out.append("")
 
     out += ["\tpublic record Sound(String id, List<String> paths, float volume, float pitchJitter) {", "\t}", ""]

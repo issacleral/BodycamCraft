@@ -1,0 +1,11 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "bodycamcraft:item/magazine_base",
+    "model": {
+      "type": "bodycamcraft:gun",
+      "weapon": "m4a1",
+      "part": "magazine"
+    }
+  }
+}

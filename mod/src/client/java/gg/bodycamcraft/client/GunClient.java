@@ -255,9 +255,9 @@ public final class GunClient {
 		pose.pushPose();
 		pose.mulPose(Axis.YP.rotationDegrees(-yaw));
 		pose.mulPose(Axis.XP.rotationDegrees(-pitch));
-		pose.translate(Mth.lerp(aim, Cam.HOLD_HIP_RIGHT, 0),
-				Mth.lerp(aim, Cam.HOLD_HIP_UP, -model.sightTop - Cam.HOLD_AIM_SIGHT_DROP),
-				-Mth.lerp(aim, Cam.HOLD_HIP_FORWARD, Cam.HOLD_AIM_FORWARD + model.rearZ));
+		pose.translate(Mth.lerp(aim, model.weapon.hipRight(), 0),
+				Mth.lerp(aim, model.weapon.hipUp(), -model.sightTop - Cam.HOLD_AIM_SIGHT_DROP),
+				-Mth.lerp(aim, model.weapon.hipForward(), model.weapon.aimForward() + model.rearZ));
 
 		float raise = Mth.lerp(partialTick, equipOld, equip) / EQUIP_TICKS;
 		pose.translate(0, -0.22f * raise, 0);

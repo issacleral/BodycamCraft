@@ -6,7 +6,7 @@
     {"role": "secondary", "slug": "custom-bodycam"}
   ],
   "notes": {
-    "firstLaunch": "The first Play opens Prism Launcher once: sign in with the Microsoft account that owns Minecraft: Java Edition. Prism then downloads Minecraft and Java (a few minutes) and the game starts. Create a single-player world: you spawn with a Glock 17 and four magazines. Left click fires, right click aims, R reloads, V turns the bodycam view on and off. Bodycam must be installed on Steam: its guns and sounds are read from your copy."
+    "firstLaunch": "The first Play opens Prism Launcher once: sign in with the Microsoft account that owns Minecraft: Java Edition. Prism then downloads Minecraft and Java (a few minutes) and the game starts. Create a single-player world: you spawn with a Glock 17, an M4A1 and spare magazines. Left click fires, right click aims, R reloads, V turns the bodycam view on and off. Bodycam must be installed on Steam: its guns and sounds are read from your copy."
   },
   "setup": {
     "label": "Minecraft",

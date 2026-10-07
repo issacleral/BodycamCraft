@@ -100,7 +100,7 @@ public final class ClientAssets {
 				Map<String, String> motions = new HashMap<>();
 				for (Sheets.Part part : Sheets.PARTS) {
 					if (part.weapon().equals(weapon.id())) {
-						defs.add(new GunAssets.PartDef(part.id(), part.mesh(), part.skeletal(), part.socket()));
+						defs.add(new GunAssets.PartDef(part.id(), part.mesh(), part.skeletal(), part.socket(), part.socketSkeleton()));
 						motions.put(part.id(), part.motion());
 					}
 				}
@@ -151,7 +151,7 @@ public final class ClientAssets {
 					model.min[k] = Math.min(model.min[k], p[k]);
 					model.max[k] = Math.max(model.max[k], p[k]);
 				}
-				if (part.id().equals(weapon.slidePart())) {
+				if (part.id().equals(weapon.sightPart())) {
 					model.sightTop = Math.max(model.sightTop, y);
 					model.rearZ = Math.max(model.rearZ, z);
 				}

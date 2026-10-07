@@ -79,12 +79,8 @@
     },
     {
       "id": "hold",
-      "what": "Where the gun sits in view, in metres from the camera: hip position of the gun origin, and how far the sights sit from the eye when aiming.",
+      "what": "How aiming down the sights lines up; where each gun sits is in the weapons sheet.",
       "params": {
-        "hip_right": 0.1,
-        "hip_up": -0.115,
-        "hip_forward": 0.38,
-        "aim_forward": 0.33,
         "aim_sight_drop": 0.003,
         "aim_ticks": 4.0
       },

@@ -26,6 +26,24 @@
       "model": "special:magazine",
       "weapon": "glock17",
       "verified": "in-game autotest 2026-10-07 (PASS): both items exist and draw in the inventory"
+    },
+    {
+      "id": "m4a1",
+      "kind": "gun",
+      "name": "M4A1",
+      "stack": 1,
+      "model": "special:gun",
+      "weapon": "m4a1",
+      "verified": "in-game autotest 2026-10-07 (PASS): in the hotbar with its icon"
+    },
+    {
+      "id": "m4a1_magazine",
+      "kind": "magazine",
+      "name": "M4A1 Magazine",
+      "stack": 16,
+      "model": "special:magazine",
+      "weapon": "m4a1",
+      "verified": "in-game autotest 2026-10-07 (PASS): in the hotbar with its icon"
     }
   ]
 }

@@ -23,6 +23,22 @@
       "slot": 1,
       "loaded": false,
       "verified": "in-game autotest 2026-10-07 (PASS): Glock with 17 rounds in slot 0, 4 magazines in slot 1"
+    },
+    {
+      "id": "kit_rifle",
+      "item": "m4a1",
+      "count": 1,
+      "slot": 2,
+      "loaded": true,
+      "verified": "in-game autotest 2026-10-07 (PASS): M4A1 with 30 rounds in slot 2, 3 magazines in slot 3"
+    },
+    {
+      "id": "kit_rifle_magazines",
+      "item": "m4a1_magazine",
+      "count": 3,
+      "slot": 3,
+      "loaded": false,
+      "verified": "in-game autotest 2026-10-07 (PASS): M4A1 with 30 rounds in slot 2, 3 magazines in slot 3"
     }
   ]
 }

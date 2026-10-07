@@ -21,11 +21,11 @@ public final class Dump {
 		String g = "Bodycam/Content/BodycamWeapons/Guns/Glock17/";
 		t0 = System.nanoTime();
 		GunAssets.Gun gun = GunAssets.load(pak, g + "SKM_Glock17_Skeleton", List.of(
-				new GunAssets.PartDef("frame", g + "SKM_Glock17", true, ""),
-				new GunAssets.PartDef("slide", g + "Glock17_Default_Slide", false, "Slide"),
-				new GunAssets.PartDef("barrel", g + "Glock17_Default_Barrel", false, "Threaded_Barrel"),
-				new GunAssets.PartDef("magazine", g + "Glock17_Magazine", false, "magazine"),
-				new GunAssets.PartDef("trigger", g + "Glock17_Default_Firemods", false, "Trigger")),
+				new GunAssets.PartDef("frame", g + "SKM_Glock17", true, "", ""),
+				new GunAssets.PartDef("slide", g + "Glock17_Default_Slide", false, "Slide", ""),
+				new GunAssets.PartDef("barrel", g + "Glock17_Default_Barrel", false, "Threaded_Barrel", ""),
+				new GunAssets.PartDef("magazine", g + "Glock17_Magazine", false, "magazine", ""),
+				new GunAssets.PartDef("trigger", g + "Glock17_Default_Firemods", false, "Trigger", "")),
 				g + "M_Glock17", "SOCKET_Muzzle", 1024);
 		System.out.println("gun loaded in " + (System.nanoTime() - t0) / 1_000_000 + " ms, muzzle " + java.util.Arrays.toString(gun.muzzle()));
 		try (PrintWriter w = new PrintWriter(Files.newBufferedWriter(out.resolve("glock.obj")))) {

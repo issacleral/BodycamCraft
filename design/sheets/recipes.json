@@ -17,6 +17,31 @@
         "minecraft:gunpowder"
       ],
       "verified": "pending: recipe file generated, not crafted in game yet"
+    },
+    {
+      "id": "m4a1_magazine",
+      "result": "m4a1_magazine",
+      "count": 1,
+      "ingredients": [
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "minecraft:copper_ingot",
+        "minecraft:gunpowder"
+      ],
+      "verified": "pending: recipe file generated, not crafted in game yet"
+    },
+    {
+      "id": "m4a1",
+      "result": "m4a1",
+      "count": 1,
+      "ingredients": [
+        "minecraft:iron_block",
+        "minecraft:iron_ingot",
+        "minecraft:iron_ingot",
+        "minecraft:copper_ingot",
+        "minecraft:stick"
+      ],
+      "verified": "pending: recipe file generated, not crafted in game yet"
     }
   ]
 }

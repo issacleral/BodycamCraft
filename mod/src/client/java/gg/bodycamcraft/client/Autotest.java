@@ -36,6 +36,7 @@ public final class Autotest {
 	private static boolean worldRequested;
 	private static int waited;
 	private static int tick = -1;
+	private static int glockShots = -1, m4Start = -1, m4End = -1;
 	private static int roundsAtStart = -1, husksAfterShots = -1, roundsAfterReload = -1, reloadDone = -1;
 
 	private Autotest() {
@@ -71,7 +72,20 @@ public final class Autotest {
 			demo(mc);
 			return;
 		}
+		if (tick >= 405 && tick < 417) {
+			GunClient.testTrigger = true;
+		}
 		switch (tick) {
+			case 379 -> glockShots = GunClient.shotsFired;
+			case 380 -> mc.player.getInventory().setSelectedSlot(2);
+			case 400 -> {
+				m4Start = mc.player.getMainHandItem().getOrDefault(ModItems.ROUNDS, -1);
+				shot(mc, "07_m4_hip");
+			}
+			case 425 -> GunClient.testAim = true;
+			case 445 -> shot(mc, "08_m4_aim");
+			case 447 -> GunClient.testAim = false;
+			case 470 -> m4End = mc.player.getMainHandItem().getOrDefault(ModItems.ROUNDS, -1);
 			case 20 -> {
 				command(mc, "time set 12400");
 				command(mc, "weather clear");
@@ -114,15 +128,16 @@ public final class Autotest {
 			}
 			case 372 -> shot(mc, "06_inventory");
 			case 375 -> mc.setScreen(null);
-			case 390 -> {
+			case 480 -> {
+				int m4Magazine = BodycamLibrary.magazineSize(ModItems.ITEMS.get("m4a1") instanceof ModItems.GunItem rifle ? rifle.weapon : null);
 				int magazine = BodycamLibrary.magazineSize(ModItems.ITEMS.get("glock17") instanceof ModItems.GunItem gun ? gun.weapon : null);
-				boolean pass = ClientAssets.ready() && roundsAtStart == magazine && GunClient.shotsFired == 3 && husksAfterShots == 0
+				boolean pass = ClientAssets.ready() && roundsAtStart == magazine && glockShots == 3 && m4Start == m4Magazine && m4Start - m4End >= 4 && husksAfterShots == 0
 						&& GunClient.reloadsStarted == 1 && roundsAfterReload == magazine && reloadDone == 1;
-				BodycamCraft.LOGGER.info("AUTOTEST {}: bodycam={} assets={} roundsAtStart={} shots={} husksAliveAfterTwoShots={} reloads={} roundsAfterReload={} magazine={}",
-						pass ? "PASS" : "FAIL", BodycamLibrary.state(), ClientAssets.ready(), roundsAtStart, GunClient.shotsFired, husksAfterShots,
-						GunClient.reloadsStarted, roundsAfterReload, magazine);
+				BodycamCraft.LOGGER.info("AUTOTEST {}: bodycam={} assets={} roundsAtStart={} shots={} husksAliveAfterTwoShots={} reloads={} roundsAfterReload={} magazine={} m4Rounds={}->{} of {}",
+						pass ? "PASS" : "FAIL", BodycamLibrary.state(), ClientAssets.ready(), roundsAtStart, glockShots, husksAfterShots,
+						GunClient.reloadsStarted, roundsAfterReload, magazine, m4Start, m4End, m4Magazine);
 			}
-			case 410 -> mc.stop();
+			case 500 -> mc.stop();
 			default -> {
 			}
 		}
