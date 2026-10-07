@@ -40,6 +40,7 @@ import java.util.UUID;
 /** The server side of the guns: fire rate, ammunition, the hit test, damage, reloading and the starting kit. */
 public final class GunLogic {
 	private static final String KIT_TAG = "bodycamcraft_kit";
+	private static final boolean DEBUG = System.getProperty("bodycamcraft.autotest") != null;
 
 	/** The client fired; yaw and pitch are where the gun pointed (it aims freely inside a box around the view). */
 	public record FirePayload(float yaw, float pitch, boolean aiming) implements CustomPacketPayload {
@@ -144,7 +145,9 @@ public final class GunLogic {
 				damage *= weapon.headshotMultiplier();
 			}
 			hit.invulnerableTime = 0;
-			hit.hurtServer(level, level.damageSources().playerAttack(player), damage);
+			boolean hurt = hit.hurtServer(level, level.damageSources().playerAttack(player), damage);
+			BodycamCraft.LOGGER.debug("{} hit {} for {}: {} (health {})", weapon.id(), hit.getType(), damage, hurt, hit instanceof LivingEntity l ? l.getHealth() : -1);
+			if (DEBUG) BodycamCraft.LOGGER.info("SHOT {} hit {} dmg {} hurt {} health {}", weapon.id(), hit.getType().toShortString(), damage, hurt, hit instanceof LivingEntity l2 ? l2.getHealth() : -1);
 			level.sendParticles(ParticleTypes.CRIT, hitAt.x, hitAt.y, hitAt.z, 6, 0.05, 0.05, 0.05, 0.2);
 		} else if (block.getType() == HitResult.Type.BLOCK) {
 			BlockState struck = level.getBlockState(block.getBlockPos());
@@ -152,6 +155,7 @@ public final class GunLogic {
 			level.sendParticles(ParticleTypes.SMOKE, end.x, end.y, end.z, 2, 0.02, 0.02, 0.02, 0.01);
 			level.playSound(null, block.getBlockPos(), struck.getSoundType().getHitSound(), SoundSource.BLOCKS, 0.9f, 1.3f);
 		}
+		if (DEBUG && hit == null) BodycamCraft.LOGGER.info("SHOT {} missed: yaw {} pitch {} block {}", weapon.id(), yaw, pitch, block.getType());
 		level.gameEvent(player, GameEvent.PROJECTILE_SHOOT, from);
 	}
 

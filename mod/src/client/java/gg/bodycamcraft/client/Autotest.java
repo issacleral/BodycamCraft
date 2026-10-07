@@ -36,6 +36,7 @@ public final class Autotest {
 	private static boolean worldRequested;
 	private static int waited;
 	private static int tick = -1;
+	private static float yaw;
 	private static int glockShots = -1, m4Start = -1, m4End = -1;
 	private static int roundsAtStart = -1, husksAfterShots = -1, roundsAfterReload = -1, reloadDone = -1;
 
@@ -68,6 +69,11 @@ public final class Autotest {
 		}
 		tick++;
 		GunClient.testTrigger = false;
+		if (tick > 25) {
+			// Hold the view where the script wants it, whatever the real mouse does.
+			mc.player.setYRot(yaw);
+			mc.player.setXRot(0);
+		}
 		if (DEMO) {
 			demo(mc);
 			return;
@@ -167,7 +173,7 @@ public final class Autotest {
 			caption = "Free aim: the gun moves first, then the camera turns.";
 		}
 		if (t >= 95 && t < 155) {
-			GunClient.onTurn(mc.player, t < 110 || t >= 140 ? 5 : -5, 0);
+			GunClient.testTurn(mc.player, t < 110 || t >= 140 ? 5 : -5, 0);
 		}
 		if (t == 155) {
 			caption = "The world, mobs and building are plain Minecraft.";
@@ -180,7 +186,7 @@ public final class Autotest {
 			GunClient.testTrigger = true;
 		}
 		if (t >= 226 && t < 236) {
-			mc.player.turn(11.5, 0);
+			yaw += 11.5f * 0.15f;
 		}
 		if (t == 236) {
 			caption = "Hold right click to aim down the sights.";
@@ -193,7 +199,7 @@ public final class Autotest {
 			GunClient.testAim = false;
 		}
 		if (t >= 286 && t < 302) {
-			mc.player.turn(-13.6, 0);
+			yaw += -13.6f * 0.15f;
 		}
 		if (t == 304) {
 			caption = "The real Glock, its sounds and 17 rounds: read from your Bodycam.";
@@ -206,21 +212,39 @@ public final class Autotest {
 			GunClient.testReload = true;
 		}
 		if (t == 450) {
-			caption = "Craft more magazines: iron ingot + copper ingot + gunpowder.";
+			caption = "Second gun: Bodycam's M4A1. Full auto, 30 rounds.";
+			mc.player.getInventory().setSelectedSlot(2);
+			command(mc, "summon minecraft:husk 3.5 -60 18.5 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}");
+			command(mc, "summon minecraft:husk 0.5 -60 19.5 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}");
+			command(mc, "summon minecraft:husk -2.5 -60 17.5 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}");
+		}
+		if (t == 479 || t == 511 || t == 543) {
+			GunClient.testCentre();
+		}
+		if ((t >= 480 && t < 492) || (t >= 512 && t < 524) || (t >= 544 && t < 556)) {
+			GunClient.testTrigger = true;
+			// Pull down against the climb, as a player does when firing a burst.
+			GunClient.testTurn(mc.player, 0, 2.2);
+		}
+		if ((t >= 496 && t < 508) || (t >= 528 && t < 540)) {
+			yaw += 8.7f * 0.15f;
+		}
+		if (t == 566) {
+			caption = "Craft magazines: iron + copper + gunpowder. The M4A1 is craftable too.";
 			mc.setScreen(new InventoryScreen(mc.player));
 		}
-		if (t == 495) {
+		if (t == 606) {
 			mc.setScreen(null);
 			caption = "BodycamCraft. Needs Minecraft: Java Edition and Bodycam on Steam.";
 		}
-		if (t >= 70 && t < 540) {
+		if (t >= 70 && t < 650) {
 			Screenshot.grab(mc.gameDirectory, String.format("%s_%04d.png", RUN, t - 70), mc.getMainRenderTarget(), 1, message -> {
 			});
 		}
-		if (t == 540) {
+		if (t == 650) {
 			BodycamCraft.LOGGER.info("AUTOTEST demo frames saved as {}_NNNN.png; shots {} reloads {}", RUN, GunClient.shotsFired, GunClient.reloadsStarted);
 		}
-		if (t == 560) {
+		if (t == 670) {
 			mc.stop();
 		}
 	}

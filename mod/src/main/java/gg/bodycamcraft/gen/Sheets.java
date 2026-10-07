@@ -24,8 +24,8 @@ public final class Sheets {
 					"glock_reload_empty", "glock_reload_partial", "glock_equip", "glock17_slide", 0.1f, -0.115f, 0.38f, 0.33f),
 			new Weapon("m4a1", "M4A1", "m4a1", "m4a1_magazine", "Bodycam/Content/BodycamWeapons/Guns/M4A1/M4A1A_Skeleton", "Bodycam/Content/BodycamWeapons/Guns/M4A1/M_M4A1",
 					"Barrel", "Bodycam/Content/BodycamWeapons/Core/DATA/DT/DT_MAG", "M4A1", 30, true, 2,
-					9.0f, 2.5f, 128, 2.0f, 0.25f,
-					1.3f, 0.6f, "", 0.0f, "m4a1_magazine",
+					13.0f, 2.5f, 128, 1.0f, 0.25f,
+					1.3f, 0.45f, "", 0.0f, "m4a1_magazine",
 					512, List.of("m4_fire_core", "rifle_fire_punch_outdoor", "rifle_fire_tail_outdoor", "rifle_mech"), List.of("m4_fire_core", "rifle_fire_punch_indoor", "rifle_fire_tail_indoor", "rifle_mech"), "rifle_mech",
 					"m4_reload_empty", "m4_reload_partial", "m4_equip", "m4a1_frame", 0.11f, -0.2f, 0.3f, 0.03f));
 

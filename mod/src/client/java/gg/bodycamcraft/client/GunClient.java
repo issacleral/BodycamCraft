@@ -13,7 +13,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.BedBlock;
@@ -26,7 +25,6 @@ import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
 
 /**
  * The gun in the player's hands: free aim, firing, recoil, the slide, reloading, and drawing it in first person.
@@ -66,6 +64,19 @@ public final class GunClient {
 		return player != null && player.getMainHandItem().getItem() instanceof ModItems.GunItem;
 	}
 
+	/** Points the gun straight ahead again; the scripted tour does this before each burst. */
+	static void testTurn(LocalPlayer player, double dx, double dy) {
+		scripted = true;
+		onTurn(player, dx, dy);
+		scripted = false;
+	}
+
+	private static boolean scripted;
+
+	static void testCentre() {
+		aimYaw = aimPitch = returnYaw = returnPitch = 0;
+	}
+
 	public static float aimProgress() {
 		return ads;
 	}
@@ -95,6 +106,10 @@ public final class GunClient {
 
 	/** Mouse movement goes to the gun first, inside its free-aim box; what does not fit turns the player. */
 	public static void onTurn(LocalPlayer player, double dx, double dy) {
+		if (Autotest.ACTIVE && !scripted) {
+			// The scripted test owns the view; a real mouse over the window must not disturb it.
+			return;
+		}
 		if (held == null || !BodycamView.active()) {
 			player.turn(dx, dy);
 			return;
@@ -208,10 +223,6 @@ public final class GunClient {
 		returnPitch += -up * Cam.RECOIL_GUN_RETURN;
 		returnYaw += side * Cam.RECOIL_GUN_RETURN;
 		BodycamView.kick(Cam.RECOIL_SHAKE_DEGREES * steady);
-
-		Vec3 dir = Vec3.directionFromRotation(player.getXRot() + aimPitch, player.getYRot() + aimYaw);
-		Vec3 muzzle = player.getEyePosition().add(0, -chestDrop(player), 0).add(dir.scale(0.7));
-		mc.level.addParticle(ParticleTypes.SMOKE, muzzle.x, muzzle.y, muzzle.z, dir.x * 0.05, 0.02, dir.z * 0.05);
 	}
 
 	private static void startReload(LocalPlayer player, ItemStack stack, Sheets.Weapon weapon) {
