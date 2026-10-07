@@ -26,7 +26,12 @@ import net.minecraft.world.level.levelgen.presets.WorldPresets;
  * a husk, aims, reloads, and saves screenshots of each step. It logs one AUTOTEST line with the result and quits.
  */
 public final class Autotest {
-	public static final boolean ACTIVE = Boolean.getBoolean("bodycamcraft.autotest");
+	/** -Dbodycamcraft.autotest=demo plays a short captioned tour and saves every frame, to cut a clip from. */
+	public static final boolean DEMO = "demo".equals(System.getProperty("bodycamcraft.autotest"));
+	public static final boolean ACTIVE = DEMO || Boolean.getBoolean("bodycamcraft.autotest");
+	/** Text the HUD shows under the picture while the tour runs. */
+	public static String caption;
+	private static final String RUN = "demo" + System.currentTimeMillis() / 1000 % 100000;
 
 	private static boolean worldRequested;
 	private static int waited;
@@ -62,6 +67,10 @@ public final class Autotest {
 		}
 		tick++;
 		GunClient.testTrigger = false;
+		if (DEMO) {
+			demo(mc);
+			return;
+		}
 		switch (tick) {
 			case 20 -> {
 				command(mc, "time set 12400");
@@ -116,6 +125,88 @@ public final class Autotest {
 			case 410 -> mc.stop();
 			default -> {
 			}
+		}
+	}
+
+	private static void demo(Minecraft mc) {
+		int t = tick;
+		if (t == 20) {
+			command(mc, "time set 11900");
+			command(mc, "weather clear");
+			command(mc, "tp @s 0.5 -60 0.5 0 0");
+			command(mc, "fill -7 -60 22 8 -56 22 minecraft:stone_bricks");
+			command(mc, "fill -7 -60 12 -7 -57 22 minecraft:oak_planks");
+			command(mc, "setblock 4 -60 12 minecraft:lantern");
+			command(mc, "setblock -4 -60 16 minecraft:lantern");
+			command(mc, "summon minecraft:husk 0.5 -60 14.5 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}");
+			command(mc, "summon minecraft:husk -2.5 -60 17.5 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}");
+			command(mc, "summon minecraft:husk 3.5 -60 18.5 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}");
+		}
+		if (t >= 62) {
+			mc.gui.getChat().clearMessages(false);
+		}
+		if (t == 70) {
+			caption = "Minecraft survival, seen through a chest camera. No crosshair.";
+		}
+		if (t == 95) {
+			caption = "Free aim: the gun moves first, then the camera turns.";
+		}
+		if (t >= 95 && t < 155) {
+			GunClient.onTurn(mc.player, t < 110 || t >= 140 ? 5 : -5, 0);
+		}
+		if (t == 155) {
+			caption = "The world, mobs and building are plain Minecraft.";
+		}
+		mc.options.keyUp.setDown(t >= 155 && t < 185);
+		if (t == 192) {
+			caption = "Left click fires. Shots go where the gun points.";
+		}
+		if (t == 198 || t == 208 || t == 218) {
+			GunClient.testTrigger = true;
+		}
+		if (t >= 226 && t < 236) {
+			mc.player.turn(11.5, 0);
+		}
+		if (t == 236) {
+			caption = "Hold right click to aim down the sights.";
+			GunClient.testAim = true;
+		}
+		if (t == 256 || t == 266 || t == 276) {
+			GunClient.testTrigger = true;
+		}
+		if (t == 284) {
+			GunClient.testAim = false;
+		}
+		if (t >= 286 && t < 302) {
+			mc.player.turn(-13.6, 0);
+		}
+		if (t == 304) {
+			caption = "The real Glock, its sounds and 17 rounds: read from your Bodycam.";
+		}
+		if (t >= 306 && t < 356 && (t - 306) % 4 == 0) {
+			GunClient.testTrigger = true;
+		}
+		if (t == 366) {
+			caption = "R reloads. It takes as long as Bodycam's own reload.";
+			GunClient.testReload = true;
+		}
+		if (t == 450) {
+			caption = "Craft more magazines: iron ingot + copper ingot + gunpowder.";
+			mc.setScreen(new InventoryScreen(mc.player));
+		}
+		if (t == 495) {
+			mc.setScreen(null);
+			caption = "BodycamCraft. Needs Minecraft: Java Edition and Bodycam on Steam.";
+		}
+		if (t >= 70 && t < 540) {
+			Screenshot.grab(mc.gameDirectory, String.format("%s_%04d.png", RUN, t - 70), mc.getMainRenderTarget(), 1, message -> {
+			});
+		}
+		if (t == 540) {
+			BodycamCraft.LOGGER.info("AUTOTEST demo frames saved as {}_NNNN.png; shots {} reloads {}", RUN, GunClient.shotsFired, GunClient.reloadsStarted);
+		}
+		if (t == 560) {
+			mc.stop();
 		}
 	}
 

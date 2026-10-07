@@ -30,7 +30,7 @@ loom {
 			programArgs "--width", "1600", "--height", "900"
 			// ./gradlew runClient -Pautotest runs the scripted in-game check (see client/Autotest.java).
 			if (project.hasProperty("autotest")) {
-				vmArg "-Dbodycamcraft.autotest=true"
+				vmArg "-Dbodycamcraft.autotest=${project.property('autotest') ?: 'true'}"
 			}
 		}
 	}

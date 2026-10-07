@@ -83,6 +83,12 @@ public final class BodycamHud {
 				graphics.fill(8, 9, 13, 14, 0xFFE02020);
 			}
 		}
+		if (Autotest.caption != null) {
+			int w = font.width(Autotest.caption);
+			int y = graphics.guiHeight() - 40;
+			graphics.fill(width / 2 - w / 2 - 6, y - 4, width / 2 + w / 2 + 6, y + 12, 0xB0000000);
+			graphics.drawCenteredString(font, Autotest.caption, width / 2, y, 0xFFFFFFFF);
+		}
 		Component notice = switch (BodycamLibrary.state()) {
 			case MISSING -> Component.translatable("bodycamcraft.missing");
 			case FAILED -> Component.translatable("bodycamcraft.failed", BodycamLibrary.error());
