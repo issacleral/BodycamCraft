@@ -1,0 +1,15 @@
+{
+  "key.category.bodycamcraft.main": "BodycamCraft",
+  "key.bodycamcraft.reload": "Reload",
+  "key.bodycamcraft.toggle_view": "Bodycam view on/off",
+  "bodycamcraft.missing": "Bodycam is not installed. Install Bodycam on Steam to get its guns and sounds.",
+  "bodycamcraft.loading": "Loading the guns from your copy of Bodycam...",
+  "bodycamcraft.failed": "Could not read Bodycam's files: %s",
+  "bodycamcraft.tooltip.rounds": "%s / %s rounds",
+  "bodycamcraft.tooltip.magazine": "%s rounds",
+  "bodycamcraft.view.on": "Bodycam view on",
+  "bodycamcraft.view.off": "Bodycam view off",
+  "subtitles.bodycamcraft.gun": "Gun sound",
+  "item.bodycamcraft.glock17": "Glock 17",
+  "item.bodycamcraft.glock17_magazine": "Glock 17 Magazine"
+}

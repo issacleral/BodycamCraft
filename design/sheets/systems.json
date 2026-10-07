@@ -1,0 +1,156 @@
+{
+  "_sheet": "Systems. One row per piece of the mod and what it depends on.",
+  "_columns": {
+    "id": "key",
+    "file": "mod source file",
+    "what": "what it does",
+    "uses": "ref systems.id list"
+  },
+  "rows": [
+    {
+      "id": "steam_locator",
+      "file": "src/main/java/gg/bodycamcraft/bodycam/SteamLocator.java",
+      "what": "Finds the Steam copy of Bodycam (app 2406770) from the registry and the Steam library list.",
+      "uses": [],
+      "verified": "Dump test found the install on this PC"
+    },
+    {
+      "id": "native_codecs",
+      "file": "src/main/java/gg/bodycamcraft/bodycam/NativeCodecs.java",
+      "what": "Loads the bundled Oodle and Bink Audio decoders.",
+      "uses": [],
+      "verified": "Dump test"
+    },
+    {
+      "id": "pak_archive",
+      "file": "src/main/java/gg/bodycamcraft/bodycam/PakArchive.java",
+      "what": "Opens the pak files and reads one file at a time, decompressing Oodle blocks.",
+      "uses": [
+        "native_codecs"
+      ],
+      "verified": "Dump test: 114186 files indexed"
+    },
+    {
+      "id": "mesh_reader",
+      "file": "src/main/java/gg/bodycamcraft/bodycam/MeshReader.java",
+      "what": "Reads cooked static and skeletal meshes.",
+      "uses": [
+        "pak_archive"
+      ],
+      "verified": "Dump test + render"
+    },
+    {
+      "id": "skeleton_reader",
+      "file": "src/main/java/gg/bodycamcraft/bodycam/SkeletonReader.java",
+      "what": "Reads bones and sockets to place weapon parts.",
+      "uses": [
+        "pak_archive"
+      ],
+      "verified": "Dump test + render"
+    },
+    {
+      "id": "texture_reader",
+      "file": "src/main/java/gg/bodycamcraft/bodycam/TextureReader.java",
+      "what": "Reads virtual-texture DXT tiles into an image.",
+      "uses": [
+        "pak_archive"
+      ],
+      "verified": "Dump test + render"
+    },
+    {
+      "id": "sound_reader",
+      "file": "src/main/java/gg/bodycamcraft/bodycam/SoundReader.java",
+      "what": "Decodes Bink Audio SoundWaves to PCM.",
+      "uses": [
+        "pak_archive",
+        "native_codecs"
+      ],
+      "verified": "Dump test: frame counts match headers"
+    },
+    {
+      "id": "mag_table",
+      "file": "src/main/java/gg/bodycamcraft/bodycam/MagTable.java",
+      "what": "Reads the magazine size from DT_MAG.",
+      "uses": [
+        "pak_archive"
+      ],
+      "verified": "Dump test: Glock17 = 17"
+    },
+    {
+      "id": "gun_assets",
+      "file": "src/main/java/gg/bodycamcraft/bodycam/GunAssets.java",
+      "what": "Assembles a gun from the weapons and parts sheets.",
+      "uses": [
+        "mesh_reader",
+        "skeleton_reader",
+        "texture_reader"
+      ],
+      "verified": "Dump test + render"
+    },
+    {
+      "id": "library",
+      "file": "src/main/java/gg/bodycamcraft/BodycamLibrary.java",
+      "what": "Opens Bodycam once at start-up; answers whether Bodycam is installed and how many rounds a magazine holds.",
+      "uses": [
+        "steam_locator",
+        "pak_archive",
+        "mag_table"
+      ],
+      "verified": "in-game autotest 2026-10-07 (PASS): found Bodycam, magazine 17"
+    },
+    {
+      "id": "gun_logic",
+      "file": "src/main/java/gg/bodycamcraft/GunLogic.java",
+      "what": "Server rules: fire rate, ammunition, hit test, damage, reload, starting kit.",
+      "uses": [
+        "library"
+      ],
+      "verified": "in-game autotest 2026-10-07 (PASS)"
+    },
+    {
+      "id": "client_assets",
+      "file": "src/client/java/gg/bodycamcraft/client/ClientAssets.java",
+      "what": "Loads gun models, the texture and all sounds on a background thread.",
+      "uses": [
+        "library",
+        "gun_assets",
+        "sound_reader"
+      ],
+      "verified": "in-game autotest 2026-10-07 (PASS): 1 gun, 37 sounds in 0.3 s"
+    },
+    {
+      "id": "gun_client",
+      "file": "src/client/java/gg/bodycamcraft/client/GunClient.java",
+      "what": "Client gun state: free aim, recoil, slide and reload motion, input.",
+      "uses": [
+        "client_assets"
+      ],
+      "verified": "in-game autotest 2026-10-07 (PASS)"
+    },
+    {
+      "id": "gun_renderer",
+      "file": "src/client/java/gg/bodycamcraft/client/GunRenderer.java",
+      "what": "Draws the gun parts with their motion.",
+      "uses": [
+        "client_assets"
+      ],
+      "verified": "in-game autotest 2026-10-07 (PASS) + screenshots"
+    },
+    {
+      "id": "bodycam_view",
+      "file": "src/client/java/gg/bodycamcraft/client/BodycamView.java",
+      "what": "The chest-camera state and sway maths.",
+      "uses": [],
+      "verified": "in-game autotest 2026-10-07 (PASS) + screenshots"
+    },
+    {
+      "id": "autotest",
+      "file": "src/client/java/gg/bodycamcraft/client/Autotest.java",
+      "what": "Scripted in-game check, only with -Dbodycamcraft.autotest: makes a world, fires, reloads, takes screenshots.",
+      "uses": [
+        "gun_client"
+      ],
+      "verified": "in-game autotest 2026-10-07 (PASS)"
+    }
+  ]
+}

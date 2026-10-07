@@ -1,0 +1,128 @@
+{
+  "_sheet": "Sounds. One row per sound event; each plays one random path from its list. Paths are SoundWaves inside the player\u2019s Bodycam install.",
+  "_columns": {
+    "id": "key",
+    "paths": "bodycam paths, one picked at random",
+    "volume": "0-1",
+    "pitch_jitter": "random pitch change, +-"
+  },
+  "rows": [
+    {
+      "id": "glock_fire_core",
+      "paths": [
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Orginals/Bodycam_Guns_Originals_Mlock_Close"
+      ],
+      "volume": 0.9,
+      "pitch_jitter": 0.03,
+      "verified": "all paths decoded at game start (37 sounds loaded); played in the autotest without errors; not yet listened to by a person"
+    },
+    {
+      "id": "glock_fire_punch_outdoor",
+      "paths": [
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Punch/CLEAN/Bodycam_Guns_Pistol_Punch_Outside_Close_CLEAN_v2_001",
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Punch/CLEAN/Bodycam_Guns_Pistol_Punch_Outside_Close_CLEAN_v2_002",
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Punch/CLEAN/Bodycam_Guns_Pistol_Punch_Outside_Close_CLEAN_v2_003",
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Punch/CLEAN/Bodycam_Guns_Pistol_Punch_Outside_Close_CLEAN_v2_004"
+      ],
+      "volume": 0.9,
+      "pitch_jitter": 0.03,
+      "verified": "all paths decoded at game start (37 sounds loaded); played in the autotest without errors; not yet listened to by a person"
+    },
+    {
+      "id": "glock_fire_punch_indoor",
+      "paths": [
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Punch/CLEAN/Bodycam_Guns_Pistol_Punch_Small_Close_CLEAN_v7_001",
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Punch/CLEAN/Bodycam_Guns_Pistol_Punch_Small_Close_CLEAN_v7_002",
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Punch/CLEAN/Bodycam_Guns_Pistol_Punch_Small_Close_CLEAN_v7_003",
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Punch/CLEAN/Bodycam_Guns_Pistol_Punch_Small_Close_CLEAN_v7_004"
+      ],
+      "volume": 0.9,
+      "pitch_jitter": 0.03,
+      "verified": "all paths decoded at game start (37 sounds loaded); played in the autotest without errors; not yet listened to by a person"
+    },
+    {
+      "id": "glock_fire_tail_outdoor",
+      "paths": [
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Tails/CLEAN/Bodycam_Guns_Pistol_Tails_Outside_Close_CLEAN_v6_001",
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Tails/CLEAN/Bodycam_Guns_Pistol_Tails_Outside_Close_CLEAN_v6_002",
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Tails/CLEAN/Bodycam_Guns_Pistol_Tails_Outside_Close_CLEAN_v6_003",
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Tails/CLEAN/Bodycam_Guns_Pistol_Tails_Outside_Close_CLEAN_v6_004"
+      ],
+      "volume": 0.8,
+      "pitch_jitter": 0.02,
+      "verified": "all paths decoded at game start (37 sounds loaded); played in the autotest without errors; not yet listened to by a person"
+    },
+    {
+      "id": "glock_fire_tail_indoor",
+      "paths": [
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Tails/CLEAN/Bodycam_Guns_Pistol_Tails_Small_Close_CLEAN_v4_001",
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Tails/CLEAN/Bodycam_Guns_Pistol_Tails_Small_Close_CLEAN_v4_002",
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Tails/CLEAN/Bodycam_Guns_Pistol_Tails_Small_Close_CLEAN_v4_003",
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Tails/CLEAN/Bodycam_Guns_Pistol_Tails_Small_Close_CLEAN_v4_004"
+      ],
+      "volume": 0.8,
+      "pitch_jitter": 0.02,
+      "verified": "all paths decoded at game start (37 sounds loaded); played in the autotest without errors; not yet listened to by a person"
+    },
+    {
+      "id": "glock_mech",
+      "paths": [
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Mech/Bodycam_Guns_Pistol_Mech_001",
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Mech/Bodycam_Guns_Pistol_Mech_002",
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Mech/Bodycam_Guns_Pistol_Mech_003",
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Mech/Bodycam_Guns_Pistol_Mech_004",
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Mech/Bodycam_Guns_Pistol_Mech_005",
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Mech/Bodycam_Guns_Pistol_Mech_006",
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Mech/Bodycam_Guns_Pistol_Mech_007",
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Mech/Bodycam_Guns_Pistol_Mech_008",
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Mech/Bodycam_Guns_Pistol_Mech_009",
+        "Bodycam/Content/Audio/Guns/Wav/Pistol/Mech/Bodycam_Guns_Pistol_Mech_010"
+      ],
+      "volume": 0.5,
+      "pitch_jitter": 0.04,
+      "verified": "all paths decoded at game start (37 sounds loaded); played in the autotest without errors; not yet listened to by a person"
+    },
+    {
+      "id": "glock_dry",
+      "paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/Glock/Sounds/BODYCAM_GLOCK_Mech"
+      ],
+      "volume": 0.9,
+      "pitch_jitter": 0.02,
+      "verified": "all paths decoded at game start (37 sounds loaded); played in the autotest without errors; not yet listened to by a person"
+    },
+    {
+      "id": "glock_reload_empty",
+      "paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Sounds/G17_reloadEmpty_Calm01",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Sounds/G17_reloadEmpty_Calm02",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Sounds/G17_reloadEmpty_Calm03",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Sounds/G17_reloadEmpty_Calm04"
+      ],
+      "volume": 1.0,
+      "pitch_jitter": 0.0,
+      "verified": "all paths decoded at game start (37 sounds loaded); played in the autotest without errors; not yet listened to by a person"
+    },
+    {
+      "id": "glock_reload_partial",
+      "paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Sounds/G17_reloadPartial_Calm01",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Sounds/G17_reloadPartial_Calm02",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Sounds/G17_reloadPartial_Calm03",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Sounds/G17_reloadPartial_Calm04"
+      ],
+      "volume": 1.0,
+      "pitch_jitter": 0.0,
+      "verified": "all paths decoded at game start (37 sounds loaded); played in the autotest without errors; not yet listened to by a person"
+    },
+    {
+      "id": "glock_equip",
+      "paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Sounds/G17_Equip"
+      ],
+      "volume": 0.9,
+      "pitch_jitter": 0.0,
+      "verified": "all paths decoded at game start (37 sounds loaded); played in the autotest without errors; not yet listened to by a person"
+    }
+  ]
+}

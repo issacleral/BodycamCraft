@@ -1,0 +1,28 @@
+{
+  "_sheet": "Starting kit, given once to each player the first time they join a world.",
+  "_columns": {
+    "id": "key",
+    "item": "ref items.id",
+    "count": "how many",
+    "slot": "hotbar slot 0-8",
+    "loaded": "gun starts with a full magazine"
+  },
+  "rows": [
+    {
+      "id": "kit_pistol",
+      "item": "glock17",
+      "count": 1,
+      "slot": 0,
+      "loaded": true,
+      "verified": "in-game autotest 2026-10-07 (PASS): Glock with 17 rounds in slot 0, 4 magazines in slot 1"
+    },
+    {
+      "id": "kit_magazines",
+      "item": "glock17_magazine",
+      "count": 4,
+      "slot": 1,
+      "loaded": false,
+      "verified": "in-game autotest 2026-10-07 (PASS): Glock with 17 rounds in slot 0, 4 magazines in slot 1"
+    }
+  ]
+}

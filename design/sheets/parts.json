@@ -1,0 +1,14 @@
+{
+  "_sheet": "Weapon parts. One row per mesh that makes up a gun, and the skeleton socket it hangs on.",
+  "_columns": {
+    "id": "key", "weapon": "ref weapons.id", "mesh": "bodycam path", "kind": "skeletal|static",
+    "socket": "socket or bone on the weapon skeleton, empty for the frame", "motion": "none|slide|magazine"
+  },
+  "rows": [
+    {"id": "glock17_frame", "weapon": "glock17", "mesh": "Bodycam/Content/BodycamWeapons/Guns/Glock17/SKM_Glock17", "kind": "skeletal", "socket": "", "motion": "none", "verified": "Dump test + render"},
+    {"id": "glock17_slide", "weapon": "glock17", "mesh": "Bodycam/Content/BodycamWeapons/Guns/Glock17/Glock17_Default_Slide", "kind": "static", "socket": "Slide", "motion": "slide", "verified": "Dump test + render"},
+    {"id": "glock17_barrel", "weapon": "glock17", "mesh": "Bodycam/Content/BodycamWeapons/Guns/Glock17/Glock17_Default_Barrel", "kind": "static", "socket": "Threaded_Barrel", "motion": "none", "verified": "Dump test + render"},
+    {"id": "glock17_magazine", "weapon": "glock17", "mesh": "Bodycam/Content/BodycamWeapons/Guns/Glock17/Glock17_Magazine", "kind": "static", "socket": "magazine", "motion": "magazine", "verified": "Dump test + render"},
+    {"id": "glock17_trigger", "weapon": "glock17", "mesh": "Bodycam/Content/BodycamWeapons/Guns/Glock17/Glock17_Default_Firemods", "kind": "static", "socket": "Trigger", "motion": "none", "verified": "Dump test + render"}
+  ]
+}

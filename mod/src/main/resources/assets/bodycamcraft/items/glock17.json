@@ -1,0 +1,11 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "bodycamcraft:item/gun_base",
+    "model": {
+      "type": "bodycamcraft:gun",
+      "weapon": "glock17",
+      "part": "all"
+    }
+  }
+}

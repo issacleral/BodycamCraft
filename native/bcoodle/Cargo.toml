@@ -1,0 +1,21 @@
+[package]
+name = "bcoodle"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Tiny C-ABI wrapper around the oozextract Kraken decoder, used by BodycamCraft to read Bodycam's own pak files."
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+oozextract = "0.5"
+
+[profile.release]
+opt-level = 3
+lto = true
+panic = "abort"
+strip = true
+
+[patch.crates-io]
+test-log = { path = "stub/test-log" }

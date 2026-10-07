@@ -1,0 +1,31 @@
+{
+  "_sheet": "Items the mod registers.",
+  "_columns": {
+    "id": "key, registry path under bodycamcraft:",
+    "kind": "gun|magazine",
+    "name": "English name",
+    "stack": "max stack size",
+    "model": "special:gun | flat:<texture>",
+    "weapon": "ref weapons.id"
+  },
+  "rows": [
+    {
+      "id": "glock17",
+      "kind": "gun",
+      "name": "Glock 17",
+      "stack": 1,
+      "model": "special:gun",
+      "weapon": "glock17",
+      "verified": "in-game autotest 2026-10-07 (PASS): both items exist and draw in the inventory"
+    },
+    {
+      "id": "glock17_magazine",
+      "kind": "magazine",
+      "name": "Glock 17 Magazine",
+      "stack": 16,
+      "model": "special:magazine",
+      "weapon": "glock17",
+      "verified": "in-game autotest 2026-10-07 (PASS): both items exist and draw in the inventory"
+    }
+  ]
+}

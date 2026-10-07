@@ -1,0 +1,12 @@
+[package]
+name = "test-log"
+version = "0.2.99"
+edition = "2021"
+description = "Empty stand-in: oozextract lists test-log as a normal dependency but only uses it in its tests."
+
+[features]
+default = []
+log = []
+trace = []
+unstable = []
+color = []

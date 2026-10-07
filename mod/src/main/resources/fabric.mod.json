@@ -1,0 +1,27 @@
+{
+	"schemaVersion": 1,
+	"id": "bodycamcraft",
+	"version": "${version}",
+	"name": "BodycamCraft",
+	"description": "Minecraft survival played as Bodycam footage, with the guns and sounds from your own copy of Bodycam.",
+	"authors": ["Rodrigo Salvatierra Calla"],
+	"contact": {},
+	"license": "MIT",
+	"environment": "*",
+	"entrypoints": {
+		"main": ["gg.bodycamcraft.BodycamCraft"],
+		"client": ["gg.bodycamcraft.client.BodycamCraftClient"]
+	},
+	"mixins": [
+		{
+			"config": "bodycamcraft.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.0",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}

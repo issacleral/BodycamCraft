@@ -1,0 +1,15 @@
+{
+	"required": true,
+	"package": "gg.bodycamcraft.client.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"client": [
+		"CameraMixin",
+		"GameRendererMixin",
+		"ItemInHandRendererMixin",
+		"MinecraftMixin",
+		"MouseHandlerMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

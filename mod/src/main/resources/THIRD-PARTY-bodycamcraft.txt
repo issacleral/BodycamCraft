@@ -1,0 +1,14 @@
+BodycamCraft bundles two small native decoders, used only to read the files of the Bodycam copy installed on this PC.
+No Bodycam content is included in this mod.
+
+natives/bcoodle.dll
+  A C wrapper around the oozextract crate (Kraken decompression), version 0.5.5.
+  License: MIT. Source: https://github.com/lvlvllvlvllvlvl/oozextract
+
+natives/bcbinka.dll
+  A C wrapper around the Bink Audio decoder of vgmstream (binka_dec, binka_transform).
+  License: ISC, Copyright (c) 2008-2025 Adam Gashlin, Fastelbja, Ronny Elfert, bnnm, Christopher Snowhill,
+  NicknineTheEagle, bxaimc, Thealexbarney, CyberBotX, EdnessP, et al. Source: https://github.com/vgmstream/vgmstream
+  Permission to use, copy, modify, and distribute this software for any purpose with or without fee is hereby
+  granted, provided that the above copyright notice and this permission notice appear in all copies.
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE.

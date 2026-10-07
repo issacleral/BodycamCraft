@@ -1,0 +1,20 @@
+# Tool downloads, build output and local runs
+/tools/
+/dist/
+/recon/
+/native/bcoodle/target/
+/native/bcbinka/*.dll
+/native/bcbinka/*.lib
+/native/bcbinka/*.pdb
+mod/.gradle/
+mod/build/
+mod/run/
+mod/bin/
+__pycache__/
+*.pyc
+
+# Never commit game files
+*.pak
+*.uasset
+*.uexp
+*.ubulk

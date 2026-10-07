@@ -1,0 +1,214 @@
+{
+  "_sheet": "Hooks into Minecraft. One row per place the mod touches the game.",
+  "_columns": {
+    "id": "key",
+    "side": "common|client",
+    "kind": "registry|network|event|mixin|api",
+    "target": "class, as a path under the decompiled Minecraft or Fabric API sources",
+    "member": "method or field that must exist in target",
+    "file": "mod source file that implements it; must contain the text 'hook: <id>'",
+    "purpose": "what it is for"
+  },
+  "rows": [
+    {
+      "id": "items",
+      "side": "common",
+      "kind": "registry",
+      "target": "net/minecraft/world/item/Items",
+      "member": "registerItem",
+      "file": "src/main/java/gg/bodycamcraft/ModItems.java",
+      "purpose": "Registers the gun and magazine items from the items sheet.",
+      "verified": "in-game autotest 2026-10-07 (PASS)"
+    },
+    {
+      "id": "rounds_component",
+      "side": "common",
+      "kind": "registry",
+      "target": "net/minecraft/core/component/DataComponentType",
+      "member": "builder",
+      "file": "src/main/java/gg/bodycamcraft/ModItems.java",
+      "purpose": "Rounds left in a gun, stored on the item stack and synced to the client.",
+      "verified": "in-game autotest 2026-10-07 (PASS): 17 -> 14 -> 17"
+    },
+    {
+      "id": "fire_payload",
+      "side": "common",
+      "kind": "network",
+      "target": "net/fabricmc/fabric/api/networking/v1/ServerPlayNetworking",
+      "member": "registerGlobalReceiver",
+      "file": "src/main/java/gg/bodycamcraft/GunLogic.java",
+      "purpose": "Client tells the server it fired and where the gun pointed.",
+      "verified": "in-game autotest 2026-10-07 (PASS): 3 shots, husk killed by 2"
+    },
+    {
+      "id": "reload_payload",
+      "side": "common",
+      "kind": "network",
+      "target": "net/fabricmc/fabric/api/networking/v1/ServerPlayNetworking",
+      "member": "registerGlobalReceiver",
+      "file": "src/main/java/gg/bodycamcraft/GunLogic.java",
+      "purpose": "Client asks to reload; the server takes a magazine and refills after the reload time.",
+      "verified": "in-game autotest 2026-10-07 (PASS): magazine used, 17 rounds back"
+    },
+    {
+      "id": "server_tick",
+      "side": "common",
+      "kind": "event",
+      "target": "net/fabricmc/fabric/api/event/lifecycle/v1/ServerTickEvents",
+      "member": "END_SERVER_TICK",
+      "file": "src/main/java/gg/bodycamcraft/GunLogic.java",
+      "purpose": "Finishes reloads and fire cooldowns.",
+      "verified": "in-game autotest 2026-10-07 (PASS)"
+    },
+    {
+      "id": "join_kit",
+      "side": "common",
+      "kind": "event",
+      "target": "net/fabricmc/fabric/api/networking/v1/ServerPlayConnectionEvents",
+      "member": "JOIN",
+      "file": "src/main/java/gg/bodycamcraft/GunLogic.java",
+      "purpose": "Gives the starting kit once per player.",
+      "verified": "in-game autotest 2026-10-07 (PASS)"
+    },
+    {
+      "id": "attack_cancel",
+      "side": "client",
+      "kind": "mixin",
+      "target": "net/minecraft/client/Minecraft",
+      "member": "startAttack",
+      "file": "src/client/java/gg/bodycamcraft/client/mixin/MinecraftMixin.java",
+      "purpose": "Left click fires the gun, not a punch, while a gun is held.",
+      "verified": "pending: mixin applied without error; needs a real left click"
+    },
+    {
+      "id": "attack_hold_cancel",
+      "side": "client",
+      "kind": "mixin",
+      "target": "net/minecraft/client/Minecraft",
+      "member": "continueAttack",
+      "file": "src/client/java/gg/bodycamcraft/client/mixin/MinecraftMixin.java",
+      "purpose": "Holding left click does not mine blocks while a gun is held.",
+      "verified": "pending: mixin applied; needs a real held click"
+    },
+    {
+      "id": "use_cancel",
+      "side": "client",
+      "kind": "mixin",
+      "target": "net/minecraft/client/Minecraft",
+      "member": "startUseItem",
+      "file": "src/client/java/gg/bodycamcraft/client/mixin/MinecraftMixin.java",
+      "purpose": "Right click aims down the sights, not use, while a gun is held.",
+      "verified": "pending: mixin applied; needs a real right click"
+    },
+    {
+      "id": "free_aim",
+      "side": "client",
+      "kind": "mixin",
+      "target": "net/minecraft/client/MouseHandler",
+      "member": "turnPlayer",
+      "file": "src/client/java/gg/bodycamcraft/client/mixin/MouseHandlerMixin.java",
+      "purpose": "Mouse moves the gun inside its free-aim box before the camera turns.",
+      "verified": "pending: mixin applied; needs real mouse movement"
+    },
+    {
+      "id": "first_person_gun",
+      "side": "client",
+      "kind": "mixin",
+      "target": "net/minecraft/client/renderer/ItemInHandRenderer",
+      "member": "renderArmWithItem",
+      "file": "src/client/java/gg/bodycamcraft/client/mixin/ItemInHandRendererMixin.java",
+      "purpose": "Draws the Bodycam gun in first person at the free-aim angle, with recoil and reload motion.",
+      "verified": "in-game autotest 2026-10-07 (PASS) + screenshots"
+    },
+    {
+      "id": "special_model",
+      "side": "client",
+      "kind": "registry",
+      "target": "net/minecraft/client/renderer/special/SpecialModelRenderers",
+      "member": "ID_MAPPER",
+      "file": "src/client/java/gg/bodycamcraft/client/GunSpecialRenderer.java",
+      "purpose": "Draws the Bodycam gun and magazine in the inventory, third person and on the ground.",
+      "verified": "in-game autotest 2026-10-07 (PASS) + inventory and third-person screenshots"
+    },
+    {
+      "id": "lens_effect",
+      "side": "client",
+      "kind": "mixin",
+      "target": "net/minecraft/client/renderer/GameRenderer",
+      "member": "postEffectId",
+      "file": "src/client/java/gg/bodycamcraft/client/mixin/GameRendererMixin.java",
+      "purpose": "Turns the lens post effect on while the bodycam view is on.",
+      "verified": "in-game autotest 2026-10-07 (PASS) + screenshots"
+    },
+    {
+      "id": "fov",
+      "side": "client",
+      "kind": "mixin",
+      "target": "net/minecraft/client/renderer/GameRenderer",
+      "member": "getFov",
+      "file": "src/client/java/gg/bodycamcraft/client/mixin/GameRendererMixin.java",
+      "purpose": "Wide chest-camera field of view.",
+      "verified": "in-game autotest 2026-10-07 (PASS) + screenshots"
+    },
+    {
+      "id": "camera_mount",
+      "side": "client",
+      "kind": "mixin",
+      "target": "net/minecraft/client/Camera",
+      "member": "setup",
+      "file": "src/client/java/gg/bodycamcraft/client/mixin/CameraMixin.java",
+      "purpose": "Chest height, sway, step roll and recoil shake on the camera.",
+      "verified": "in-game autotest 2026-10-07 (PASS) + screenshots"
+    },
+    {
+      "id": "hud",
+      "side": "client",
+      "kind": "registry",
+      "target": "net/fabricmc/fabric/api/client/rendering/v1/hud/HudElementRegistry",
+      "member": "replaceElement",
+      "file": "src/client/java/gg/bodycamcraft/client/BodycamHud.java",
+      "purpose": "Hides the crosshair, hotbar and status bars; adds the recording stamp and the Bodycam-missing notice.",
+      "verified": "in-game autotest 2026-10-07 (PASS) + screenshots"
+    },
+    {
+      "id": "keys",
+      "side": "client",
+      "kind": "registry",
+      "target": "net/fabricmc/fabric/api/client/keybinding/v1/KeyBindingHelper",
+      "member": "registerKeyBinding",
+      "file": "src/client/java/gg/bodycamcraft/client/BodycamCraftClient.java",
+      "purpose": "Reload key and bodycam view toggle.",
+      "verified": "pending: registered; needs a real key press"
+    },
+    {
+      "id": "client_tick",
+      "side": "client",
+      "kind": "event",
+      "target": "net/fabricmc/fabric/api/client/event/lifecycle/v1/ClientTickEvents",
+      "member": "END_CLIENT_TICK",
+      "file": "src/client/java/gg/bodycamcraft/client/GunClient.java",
+      "purpose": "Reads fire, aim and reload input each tick and runs recoil and reload motion.",
+      "verified": "in-game autotest 2026-10-07 (PASS)"
+    },
+    {
+      "id": "sound_play",
+      "side": "client",
+      "kind": "api",
+      "target": "net/minecraft/client/sounds/SoundManager",
+      "member": "play",
+      "file": "src/client/java/gg/bodycamcraft/client/BodycamSounds.java",
+      "purpose": "Plays Bodycam sounds decoded from the installed game as PCM streams.",
+      "verified": "in-game autotest 2026-10-07 (PASS): no errors; not listened to"
+    },
+    {
+      "id": "gun_texture",
+      "side": "client",
+      "kind": "api",
+      "target": "net/minecraft/client/renderer/texture/TextureManager",
+      "member": "register",
+      "file": "src/client/java/gg/bodycamcraft/client/ClientAssets.java",
+      "purpose": "Uploads the Bodycam weapon texture as a dynamic texture.",
+      "verified": "in-game autotest 2026-10-07 (PASS) + screenshots"
+    }
+  ]
+}

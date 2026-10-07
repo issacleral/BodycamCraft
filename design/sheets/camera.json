@@ -1,0 +1,94 @@
+{
+  "_sheet": "The bodycam look. One row per effect; every number the camera code uses is here.",
+  "_columns": {
+    "id": "key",
+    "what": "plain description",
+    "params": "named numbers"
+  },
+  "rows": [
+    {
+      "id": "lens",
+      "what": "Fisheye lens, vignette, colour fringing, grain and washed-out colour, as a post effect.",
+      "params": {
+        "fisheye": 0.3,
+        "vignette": 0.55,
+        "fringe": 0.004,
+        "grain": 0.055,
+        "desaturate": 0.18,
+        "contrast": 1.08
+      },
+      "verified": "in-game autotest 2026-10-07 (PASS) + screenshots looked at"
+    },
+    {
+      "id": "fov",
+      "what": "Wide chest-camera field of view; narrower while aiming.",
+      "params": {
+        "fov_degrees": 95.0,
+        "aim_fov_multiplier": 0.82
+      },
+      "verified": "in-game autotest 2026-10-07 (PASS) + screenshots"
+    },
+    {
+      "id": "mount",
+      "what": "Camera sits on the chest: lower than the eyes.",
+      "params": {
+        "eye_drop_blocks": 0.28
+      },
+      "verified": "in-game autotest 2026-10-07 (PASS) + screenshots"
+    },
+    {
+      "id": "sway",
+      "what": "Body-mounted camera motion: idle breathing, step bob with roll, turn lag.",
+      "params": {
+        "idle_degrees": 0.35,
+        "idle_hz": 0.25,
+        "step_roll_degrees": 1.6,
+        "step_pitch_degrees": 0.8,
+        "turn_roll": 0.06
+      },
+      "verified": "pending: needs a person walking and turning"
+    },
+    {
+      "id": "free_aim",
+      "what": "The gun moves inside a box before the camera turns, and shots go where the gun points.",
+      "params": {
+        "yaw_degrees": 9.0,
+        "pitch_degrees": 6.0,
+        "aim_yaw_degrees": 1.5,
+        "aim_pitch_degrees": 1.0
+      },
+      "verified": "pending: needs a person moving the mouse"
+    },
+    {
+      "id": "recoil",
+      "what": "Shot kick on the camera and how fast it settles.",
+      "params": {
+        "shake_degrees": 1.2,
+        "recover_per_tick": 0.82,
+        "gun_return": 0.5
+      },
+      "verified": "pending: seen in one screenshot only; needs a person"
+    },
+    {
+      "id": "hud",
+      "what": "No crosshair. Hotbar and status bars stay hidden and only peek in after a slot change or taking damage. A recording stamp in the corner.",
+      "params": {
+        "peek_ticks": 50.0
+      },
+      "verified": "in-game autotest 2026-10-07 (PASS) + screenshots (stamp shown, crosshair hidden)"
+    },
+    {
+      "id": "hold",
+      "what": "Where the gun sits in view, in metres from the camera: hip position of the gun origin, and how far the sights sit from the eye when aiming.",
+      "params": {
+        "hip_right": 0.1,
+        "hip_up": -0.115,
+        "hip_forward": 0.38,
+        "aim_forward": 0.33,
+        "aim_sight_drop": 0.003,
+        "aim_ticks": 4.0
+      },
+      "verified": "in-game autotest 2026-10-07 (PASS) + screenshots (hip and aimed)"
+    }
+  ]
+}

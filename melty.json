@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "mode": "installed",
+  "games": [
+    {"role": "primary", "slug": "minecraft-java"},
+    {"role": "secondary", "slug": "custom-bodycam"}
+  ],
+  "notes": {
+    "firstLaunch": "The first Play opens Prism Launcher once: sign in with the Microsoft account that owns Minecraft: Java Edition. Prism then downloads Minecraft and Java (a few minutes) and the game starts. Create a single-player world: you spawn with a Glock 17 and four magazines. Left click fires, right click aims, R reloads, V turns the bodycam view on and off. Bodycam must be installed on Steam: its guns and sounds are read from your copy."
+  },
+  "setup": {
+    "label": "Minecraft",
+    "launch": {"kind": "exe", "path": "{managed}/Prism/prismlauncher.exe", "args": ["--launch", "BodycamCraft"]},
+    "done": {"file": "{managed}/Prism/instances/BodycamCraft/.minecraft/logs/latest.log", "contains": "BodycamCraft loaded"}
+  },
+  "launch": {"kind": "exe", "path": "{managed}/Prism/prismlauncher.exe", "args": ["--launch", "BodycamCraft"]},
+  "mappings": [
+    {"component": "minecraft", "from": "", "to": "{managed}"},
+    {"component": "main", "from": "", "to": "{managed}/Prism/instances/BodycamCraft/.minecraft/mods"}
+  ],
+  "components": [
+    {"id": "main", "kind": "main", "label": "BodycamCraft (the mod)", "extract": false, "fileName": "bodycamcraft-*.jar", "required": true},
+    {"id": "minecraft", "kind": "extra", "label": "Its Minecraft (Prism Launcher, 1.21.11 with Fabric)", "fileName": "BodycamCraft-Minecraft-*.zip", "required": true}
+  ],
+  "runtimeData": ["{managed}/Prism"],
+  "requirements": []
+}

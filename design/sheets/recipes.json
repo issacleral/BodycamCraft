@@ -1,0 +1,22 @@
+{
+  "_sheet": "Crafting recipes (shapeless).",
+  "_columns": {
+    "id": "key and file name",
+    "result": "ref items.id",
+    "count": "how many",
+    "ingredients": "minecraft item ids"
+  },
+  "rows": [
+    {
+      "id": "glock17_magazine",
+      "result": "glock17_magazine",
+      "count": 1,
+      "ingredients": [
+        "minecraft:iron_ingot",
+        "minecraft:copper_ingot",
+        "minecraft:gunpowder"
+      ],
+      "verified": "pending: recipe file generated, not crafted in game yet"
+    }
+  ]
+}
