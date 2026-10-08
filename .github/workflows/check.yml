@@ -1,0 +1,29 @@
+name: check
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # Bodycam and the decompiled sources aren't on the runner, so preflight checks the sheets themselves.
+      - name: design sheets are clean and the generated files match them
+        run: python design/sheets.py gen && git diff --exit-code
+      - uses: astral-sh/setup-uv@v6
+      - name: nothing that shouldn't ship
+        run: uvx --from git+https://github.com/rehan-remade/universal-modder um publish check .
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+      - name: build the mod
+        working-directory: mod
+        run: sh gradlew build --no-daemon
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bodycamcraft-jar
+          path: mod/build/libs/bodycamcraft-*.jar

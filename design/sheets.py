@@ -128,10 +128,15 @@ def preflight(sheets, quiet=False):
             elif verified.startswith("pending"):
                 pending.append("%s: %s" % (where, verified))
 
+    have_sources = all(os.path.isdir(s) for s in SOURCES)
+    if not have_sources:
+        print("note: no decompiled Minecraft and Fabric sources in tools/, so hook targets were not checked")
     for row in sheets["hooks"]["rows"]:
         where = "hooks.%s" % row["id"]
         source = next((os.path.join(s, row["target"] + ".java") for s in SOURCES if os.path.isfile(os.path.join(s, row["target"] + ".java"))), None)
-        if source is None:
+        if not have_sources:
+            pass
+        elif source is None:
             problems.append("%s.target: no such class in the decompiled sources: %s" % (where, row["target"]))
         elif row["member"] not in open(source, encoding="utf-8").read():
             problems.append("%s.member: '%s' is not in %s" % (where, row["member"], row["target"]))
