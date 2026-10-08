@@ -3,10 +3,10 @@
 **Minecraft survival jugado como una grabación de bodycam, con la Glock 17 y los sonidos reales de tu propia copia de [Bodycam](https://store.steampowered.com/app/2406770/Bodycam/).**
 
 *Minecraft survival played as bodycam footage, with the real Glock 17 and gun sounds from your own copy of Bodycam. [English below](#english).*
-<p align="center">
+
 [![licencia: MIT](https://img.shields.io/badge/licencia-MIT-blue)](LICENSE)
 [![jugar en Melty](https://img.shields.io/badge/jugar-Melty-ff5a5f)](https://melty.gg/m/bodycamcraft)
-</p>
+
 
 ![Vista desde la cadera](media/autotest_01_hip.png)
 
