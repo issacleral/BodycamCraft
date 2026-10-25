@@ -31,5 +31,27 @@ own mobs. Solo. Host = Minecraft Java (Fabric), Bodycam = content source read fr
   Morton order, 4 px border); weapon parts hang on Skeleton sockets named like the part (Slide, magazine, Trigger, Threaded_Barrel);
   sounds are Bink Audio (ABEU header inline, packets in .ubulk); never run two Gradle builds at once.
 - Still to check by a person: free aim with the mouse, sounds by ear, real clicks/keys, crafting, install through Melty.
+- Animations (2026-10-26, step 1 of hands + real animations): every first-person gun AnimSequence imports
+  /ACLPlugin/ACLAnimBoneCompressionSettings and ACLAnimCurveCompressionSettings. The .uexp holds ACL
+  compressed_tracks buffers (tag 0xac11ac11, preceded by size + hash): version 10 = ACL 2.1.0, algorithm 0
+  (uniformly sampled), bones as track_type 12 (qvvf), curves as track_type 0 (float1f), 30 fps. Arms use
+  ALS_Mannequin_Skeleton (86 bone tracks; additive ones like Fire carry 179). Glock: A_FP_Glock_* (fire, draw,
+  equip, holster, idle, magCheck, reloadEmpty/Partial x Calm/Stressed 01-04) with matching gun-side A_W_Glock_*
+  (13 tracks) and G17_* reload sounds of the same names. M4A1: A_FP_M4A1_* likewise. Arms mesh:
+  BodycamSkin/Arms/Basic/SKM_HumanArmsLongSleeves_Morphers. Some A_FP_Glock17_* (inspect, flinch) have no
+  0xac11ac11 buffer: not checked why. REA had no disassembler configured (no Ghidra), so the exe was not opened;
+  the data plus ACL's public version table answered the question.
+- Step 2 (2026-10-26): native/bcacl (ACL 2.1.0 + RTM headers, MIT, vendored in native/bcacl/include) builds
+  bcacl.dll with `zig c++ -shared -target x86_64-windows-gnu -O2 -std=c++17 -DNDEBUG
+  -Wno-missing-template-arg-list-after-template-kw -Iinclude -ffile-prefix-map=<project>=.` (newer clang rejects
+  ACL 2.1's `::template is_bound_to(` without that flag). Gotchas: (1) Unreal's ACL plugin strips sub-tracks equal
+  to the bind pose; decoding them as ACL's default (identity/zero) collapses every bone onto its parent, so the
+  writer uses default_sub_track_mode::skipped, the DLL leaves NaN, and the caller fills from the reference pose.
+  (2) The .uexp of an AnimSequence starts with a header, then at byte 66 an int32 track count followed by one int32
+  skeleton bone index per track (tables are 2 bytes off 4-byte alignment). (3) ALS_Mannequin_Skeleton has 158 real
+  bones (reference skeleton = [n][name, parent]*n then [n] double transforms, name map of 158 after); track indices
+  >= 158 are virtual bones and can be ignored for the arms. Verified: Glock reloadEmpty_Calm01 posed on the
+  skeleton draws a two-handed grip, the left hand going to the belt and back, and the same pose at both ends.
+  Not yet: curves, additive anims (Fire carries scale 0 = additive deltas), the gun-side A_W_ tracks, Java side.
 - bcoodle.dll must be built with path remapping (CARGO_ENCODED_RUSTFLAGS --remap-path-prefix for the home and project
   folders, project last) or the Rust panic strings carry the builder's Windows user name and folders. 0.1.0 had them; 0.1.1 does not.

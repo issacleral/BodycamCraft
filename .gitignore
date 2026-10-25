@@ -18,3 +18,4 @@ __pycache__/
 *.uasset
 *.uexp
 *.ubulk
+/native/bcacl/*.dll
