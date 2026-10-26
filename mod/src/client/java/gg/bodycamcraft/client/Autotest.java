@@ -78,7 +78,7 @@ public final class Autotest {
 			demo(mc);
 			return;
 		}
-		if (tick >= 405 && tick < 417) {
+		if ((tick >= 405 && tick < 417) || (tick >= 436 && tick < 442)) {
 			GunClient.testTrigger = true;
 		}
 		switch (tick) {
@@ -91,6 +91,7 @@ public final class Autotest {
 			case 384 -> shot(mc, "10_m4_equip");
 			case 409 -> shot(mc, "11_m4_fire");
 			case 425 -> GunClient.testAim = true;
+			case 439 -> shot(mc, "12_m4_aim_fire");
 			case 445 -> shot(mc, "08_m4_aim");
 			case 447 -> GunClient.testAim = false;
 			case 470 -> m4End = mc.player.getMainHandItem().getOrDefault(ModItems.ROUNDS, -1);
@@ -116,7 +117,7 @@ public final class Autotest {
 			case 70 -> shot(mc, "01_hip");
 			case 80, 95 -> GunClient.testTrigger = true;
 			case 81 -> shot(mc, "02_shot");
-			case 83, 86 -> shot(mc, "02_shot_" + (tick - 80));
+			case 82, 83, 84, 85, 86, 88 -> shot(mc, "02_shot_" + (tick - 80));
 			case 115 -> {
 				husksAfterShots = husks(mc);
 				command(mc, "summon minecraft:husk 0.5 -60 8.5 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}");

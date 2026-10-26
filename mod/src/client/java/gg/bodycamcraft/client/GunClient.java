@@ -382,7 +382,7 @@ public final class GunClient {
 		float fireSeconds = (fireAge + partialTick) / 20f;
 		RigReader.Anim fireAnim = first(rig.anims(id, "fire"));
 		if (fireAnim != null && fireSeconds < fireAnim.seconds()) {
-			ArmsRenderer.applyAdditive(local, fireAnim, fireSeconds, Mth.clamp((fireAnim.seconds() - fireSeconds) / 0.1f, 0, 1));
+			ArmsRenderer.applyAdditive(rig.skeleton, local, fireAnim, fireSeconds, Mth.clamp((fireAnim.seconds() - fireSeconds) / 0.1f, 0, 1));
 		}
 		float[][] world = ArmsRenderer.world(rig.skeleton, local);
 		float[] camera = ArmsRenderer.camera(rig, world);

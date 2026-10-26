@@ -67,13 +67,49 @@ public final class ArmsRenderer {
 	}
 
 	/**
-	 * Adds an additive animation (stored as deltas from its base pose, scale 0) on top of a pose, in place: each bone's
-	 * rotation is turned by the delta and its translation offset by it, both scaled by {@code weight}.
+	 * Adds an additive animation (stored as deltas from its base pose, scale 0) on top of a pose, in place. Bodycam's
+	 * fire animations are mesh-space rotation offsets: the same turn on both hands and the gun bone, so each rotation
+	 * delta turns the bone in component space (not on top of its parent's turn, which would add up along each arm and
+	 * shake the hands). Translations add in local space. Both are scaled by {@code weight}.
 	 */
-	public static void applyAdditive(float[][] local, RigReader.Anim anim, float seconds, float weight) {
+	public static void applyAdditive(RigReader.Bones skeleton, float[][] local, RigReader.Anim anim, float seconds, float weight) {
 		if (weight <= 0) {
 			return;
 		}
+		int[] parents = skeleton.parents();
+		// Component-space rotations of the pose before the offsets, so they can be applied and turned back into local.
+		float[][] before = new float[local.length][];
+		for (int i = 0; i < local.length; i++) {
+			before[i] = parents[i] < 0 ? local[i].clone() : RigReader.Xf.qmul(before[parents[i]], local[i]);
+		}
+		float[][] deltas = new float[local.length][];
+		float[][] offsets = new float[local.length][];
+		collectAdditive(anim, seconds, weight, deltas, offsets);
+		float[][] after = new float[local.length][];
+		for (int i = 0; i < local.length; i++) {
+			after[i] = deltas[i] == null ? null : RigReader.Xf.qmul(deltas[i], before[i]);
+		}
+		// Back to local, parents first. As in Unreal, a bone without an offset keeps its component rotation.
+		for (int i = 0; i < local.length; i++) {
+			float[] want = after[i] != null ? after[i] : before[i];
+			if (parents[i] >= 0) {
+				float[] parent = after[parents[i]] != null ? after[parents[i]] : before[parents[i]];
+				float[] q = RigReader.Xf.qmul(new float[] {-parent[0], -parent[1], -parent[2], parent[3]}, want);
+				normalize(q);
+				System.arraycopy(q, 0, local[i], 0, 4);
+			} else {
+				System.arraycopy(want, 0, local[i], 0, 4);
+			}
+			if (offsets[i] != null) {
+				for (int k = 0; k < 3; k++) {
+					local[i][4 + k] += offsets[i][k];
+				}
+			}
+		}
+	}
+
+	/** The weighted rotation deltas and translation offsets of an additive animation at a time, by bone. */
+	private static void collectAdditive(RigReader.Anim anim, float seconds, float weight, float[][] deltas, float[][] offsets) {
 		int samples = anim.samples();
 		int tracks = anim.trackBones().length;
 		float frame = Math.max(0, Math.min(samples - 1, seconds * anim.rate()));
@@ -82,30 +118,30 @@ public final class ArmsRenderer {
 		float[] d = anim.data();
 		for (int track = 0; track < tracks; track++) {
 			int bone = anim.trackBones()[track];
-			if (bone >= local.length) {
+			if (bone >= deltas.length) {
 				continue;
 			}
 			int pa = (a * tracks + track) * 10, pb = (b * tracks + track) * 10;
-			float[] o = local[bone];
 			if (!Float.isNaN(d[pa])) {
 				float sign = d[pa] * d[pb] + d[pa + 1] * d[pb + 1] + d[pa + 2] * d[pb + 2] + d[pa + 3] * d[pb + 3] < 0 ? -1 : 1;
 				float[] delta = new float[4];
 				for (int k = 0; k < 4; k++) {
 					delta[k] = d[pa + k] + (sign * d[pb + k] - d[pa + k]) * t;
 				}
-				// Towards the identity by (1 - weight), then applied before the bone's own rotation.
+				// Towards the identity by (1 - weight).
 				float hemi = delta[3] < 0 ? -1 : 1;
 				for (int k = 0; k < 4; k++) {
 					delta[k] = (k == 3 ? 1 - weight : 0) + hemi * delta[k] * weight;
 				}
 				normalize(delta);
-				float[] q = RigReader.Xf.qmul(delta, o);
-				System.arraycopy(q, 0, o, 0, 4);
+				deltas[bone] = delta;
 			}
 			if (!Float.isNaN(d[pa + 4])) {
-				for (int k = 4; k < 7; k++) {
-					o[k] += (d[pa + k] + (d[pb + k] - d[pa + k]) * t) * weight;
+				float[] offset = new float[3];
+				for (int k = 0; k < 3; k++) {
+					offset[k] = (d[pa + 4 + k] + (d[pb + 4 + k] - d[pa + 4 + k]) * t) * weight;
 				}
+				offsets[bone] = offset;
 			}
 		}
 	}
@@ -127,7 +163,7 @@ public final class ArmsRenderer {
 		Matrix4f spare = null;
 		for (ClientAssets.PartMesh part : model.parts) {
 			int bone = part.bone.isEmpty() ? -1 : bones.index(part.bone);
-			if (bone < 0 || !animates(anim, bone)) {
+			if (bone < 0 || !moves(anim, bone)) {
 				continue;
 			}
 			out.put(part.id, scale(anim, bone, seconds) < 0.5f ? null : partInModel(world[bone], rest[bone]));
@@ -136,6 +172,30 @@ public final class ArmsRenderer {
 			}
 		}
 		return spare;
+	}
+
+	/** True when an animation moves, turns or hides a bone at some point (a constant track leaves the part alone). */
+	public static boolean moves(RigReader.Anim anim, int bone) {
+		int tracks = anim.trackBones().length;
+		for (int track = 0; track < tracks; track++) {
+			if (anim.trackBones()[track] != bone) {
+				continue;
+			}
+			float[] d = anim.data();
+			int first = track * 10;
+			for (int s = 1; s < anim.samples(); s++) {
+				int at = (s * tracks + track) * 10;
+				for (int k = 0; k < 8; k++) {
+					float a = d[first + k], b = d[at + k];
+					if (Float.isNaN(a) != Float.isNaN(b) || (!Float.isNaN(a) && Math.abs(a - b) > (k < 4 ? 1e-3f : 0.05f))) {
+						return true;
+					}
+				}
+			}
+			float s0 = d[first + 7];
+			return !Float.isNaN(s0) && s0 < 0.5f;
+		}
+		return false;
 	}
 
 	/** True when an animation has a track for a bone. */

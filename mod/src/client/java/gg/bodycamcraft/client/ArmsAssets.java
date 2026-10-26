@@ -117,6 +117,17 @@ public final class ArmsAssets {
 				byKind.put(anim.kind(), variants);
 				byKind.put("gun_" + anim.kind(), gunVariants);
 			}
+			// Bodycam's gun animations do not always agree with their skeleton about where a part sits when the gun is
+			// at rest (the M4A1 magazine is 6 cm off). The end of a normal shot is the gun at rest, so that is the
+			// reference parts are moved from.
+			for (Sheets.Weapon weapon : Sheets.WEAPONS) {
+				List<RigReader.Anim> fire = loaded.anims(weapon.id(), "gun_fire");
+				RigReader.Bones bones = loaded.gunSkeletons.get(weapon.id());
+				if (!fire.isEmpty() && bones != null) {
+					RigReader.Anim shot = fire.get(0);
+					loaded.gunRest.put(weapon.id(), ArmsRenderer.world(bones, ArmsRenderer.sample(bones, shot, shot.seconds(), false)));
+				}
+			}
 			rig = loaded;
 			BodycamCraft.LOGGER.info("Loaded the arms ({} vertices, {} bones, {} sections) and {} animations from Bodycam in {} ms",
 					loaded.positions.length / 3, skeleton.names().length, loaded.sections.size(), count, (System.nanoTime() - start) / 1_000_000);
