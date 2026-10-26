@@ -66,6 +66,88 @@ public final class ArmsRenderer {
 		return out;
 	}
 
+	/**
+	 * Adds an additive animation (stored as deltas from its base pose, scale 0) on top of a pose, in place: each bone's
+	 * rotation is turned by the delta and its translation offset by it, both scaled by {@code weight}.
+	 */
+	public static void applyAdditive(float[][] local, RigReader.Anim anim, float seconds, float weight) {
+		if (weight <= 0) {
+			return;
+		}
+		int samples = anim.samples();
+		int tracks = anim.trackBones().length;
+		float frame = Math.max(0, Math.min(samples - 1, seconds * anim.rate()));
+		int a = (int) frame, b = Math.min(a + 1, samples - 1);
+		float t = frame - a;
+		float[] d = anim.data();
+		for (int track = 0; track < tracks; track++) {
+			int bone = anim.trackBones()[track];
+			if (bone >= local.length) {
+				continue;
+			}
+			int pa = (a * tracks + track) * 10, pb = (b * tracks + track) * 10;
+			float[] o = local[bone];
+			if (!Float.isNaN(d[pa])) {
+				float sign = d[pa] * d[pb] + d[pa + 1] * d[pb + 1] + d[pa + 2] * d[pb + 2] + d[pa + 3] * d[pb + 3] < 0 ? -1 : 1;
+				float[] delta = new float[4];
+				for (int k = 0; k < 4; k++) {
+					delta[k] = d[pa + k] + (sign * d[pb + k] - d[pa + k]) * t;
+				}
+				// Towards the identity by (1 - weight), then applied before the bone's own rotation.
+				float hemi = delta[3] < 0 ? -1 : 1;
+				for (int k = 0; k < 4; k++) {
+					delta[k] = (k == 3 ? 1 - weight : 0) + hemi * delta[k] * weight;
+				}
+				normalize(delta);
+				float[] q = RigReader.Xf.qmul(delta, o);
+				System.arraycopy(q, 0, o, 0, 4);
+			}
+			if (!Float.isNaN(d[pa + 4])) {
+				for (int k = 4; k < 7; k++) {
+					o[k] += (d[pa + k] + (d[pb + k] - d[pa + k]) * t) * weight;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Places the parts of a gun model that follow bones of its animation skeleton, for one gun-side animation at a
+	 * time: each animated part maps to a model-space transform, or to null while the animation hides it. Returns where
+	 * the fresh magazine is, or null when the animation does not show one.
+	 */
+	public static Matrix4f gunParts(ArmsAssets.Rig rig, ClientAssets.GunModel model, RigReader.Anim anim, float seconds, java.util.Map<String, Matrix4f> out) {
+		String id = model.weapon.id();
+		RigReader.Bones bones = rig.gunSkeletons.get(id);
+		float[][] rest = rig.gunRest.get(id);
+		if (bones == null || rest == null) {
+			return null;
+		}
+		float[][] world = world(bones, sample(bones, anim, seconds, false));
+		int spareBone = model.weapon.spareMagazineBone().isEmpty() ? -1 : bones.index(model.weapon.spareMagazineBone());
+		Matrix4f spare = null;
+		for (ClientAssets.PartMesh part : model.parts) {
+			int bone = part.bone.isEmpty() ? -1 : bones.index(part.bone);
+			if (bone < 0 || !animates(anim, bone)) {
+				continue;
+			}
+			out.put(part.id, scale(anim, bone, seconds) < 0.5f ? null : partInModel(world[bone], rest[bone]));
+			if (part.motion.equals("magazine") && spareBone >= 0 && animates(anim, spareBone) && scale(anim, spareBone, seconds) >= 0.5f) {
+				spare = partInModel(world[spareBone], rest[bone]);
+			}
+		}
+		return spare;
+	}
+
+	/** True when an animation has a track for a bone. */
+	public static boolean animates(RigReader.Anim anim, int bone) {
+		for (int b : anim.trackBones()) {
+			if (b == bone) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/** The scale an animation gives a bone at a time (Bodycam hides magazines by scaling them to 0); 1 when it has none. */
 	public static float scale(RigReader.Anim anim, int bone, float seconds) {
 		int tracks = anim.trackBones().length;

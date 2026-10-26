@@ -37,7 +37,7 @@ public final class Autotest {
 	private static int waited;
 	private static int tick = -1;
 	private static float yaw;
-	private static int glockShots = -1, m4Start = -1, m4End = -1;
+	private static int glockShots = -1, m4Start = -1, m4End = -1, m4AfterReload = -1;
 	private static int roundsAtStart = -1, husksAfterShots = -1, roundsAfterReload = -1, reloadDone = -1;
 
 	private Autotest() {
@@ -88,10 +88,15 @@ public final class Autotest {
 				m4Start = mc.player.getMainHandItem().getOrDefault(ModItems.ROUNDS, -1);
 				shot(mc, "07_m4_hip");
 			}
+			case 384 -> shot(mc, "10_m4_equip");
+			case 409 -> shot(mc, "11_m4_fire");
 			case 425 -> GunClient.testAim = true;
 			case 445 -> shot(mc, "08_m4_aim");
 			case 447 -> GunClient.testAim = false;
 			case 470 -> m4End = mc.player.getMainHandItem().getOrDefault(ModItems.ROUNDS, -1);
+			case 472 -> GunClient.testReload = true;
+			case 482, 502, 522, 542, 562 -> shot(mc, "09_m4_reload_" + (tick - 482) / 20);
+			case 640 -> m4AfterReload = mc.player.getMainHandItem().getOrDefault(ModItems.ROUNDS, -1);
 			case 20 -> {
 				command(mc, "time set 12400");
 				command(mc, "weather clear");
@@ -111,6 +116,7 @@ public final class Autotest {
 			case 70 -> shot(mc, "01_hip");
 			case 80, 95 -> GunClient.testTrigger = true;
 			case 81 -> shot(mc, "02_shot");
+			case 83, 86 -> shot(mc, "02_shot_" + (tick - 80));
 			case 115 -> {
 				husksAfterShots = husks(mc);
 				command(mc, "summon minecraft:husk 0.5 -60 8.5 {NoAI:1b,PersistenceRequired:1b,Rotation:[180f,0f]}");
@@ -135,16 +141,16 @@ public final class Autotest {
 			}
 			case 372 -> shot(mc, "06_inventory");
 			case 375 -> mc.setScreen(null);
-			case 480 -> {
+			case 650 -> {
 				int m4Magazine = BodycamLibrary.magazineSize(ModItems.ITEMS.get("m4a1") instanceof ModItems.GunItem rifle ? rifle.weapon : null);
 				int magazine = BodycamLibrary.magazineSize(ModItems.ITEMS.get("glock17") instanceof ModItems.GunItem gun ? gun.weapon : null);
 				boolean pass = ClientAssets.ready() && roundsAtStart == magazine && glockShots == 3 && m4Start == m4Magazine && m4Start - m4End >= 4 && husksAfterShots == 0
-						&& GunClient.reloadsStarted == 1 && roundsAfterReload == magazine && reloadDone == 1;
-				BodycamCraft.LOGGER.info("AUTOTEST {}: bodycam={} assets={} roundsAtStart={} shots={} husksAliveAfterTwoShots={} reloads={} roundsAfterReload={} magazine={} m4Rounds={}->{} of {}",
-						pass ? "PASS" : "FAIL", BodycamLibrary.state(), ClientAssets.ready(), roundsAtStart, glockShots, husksAfterShots,
-						GunClient.reloadsStarted, roundsAfterReload, magazine, m4Start, m4End, m4Magazine);
+						&& GunClient.reloadsStarted == 2 && roundsAfterReload == magazine && reloadDone == 1 && m4AfterReload == m4Magazine;
+				BodycamCraft.LOGGER.info("AUTOTEST {}: bodycam={} assets={} arms={} roundsAtStart={} shots={} husksAliveAfterTwoShots={} reloads={} roundsAfterReload={} magazine={} m4Rounds={}->{}->{} of {}",
+						pass ? "PASS" : "FAIL", BodycamLibrary.state(), ClientAssets.ready(), ArmsAssets.rig() != null, roundsAtStart, glockShots, husksAfterShots,
+						GunClient.reloadsStarted, roundsAfterReload, magazine, m4Start, m4End, m4AfterReload, m4Magazine);
 			}
-			case 500 -> mc.stop();
+			case 670 -> mc.stop();
 			default -> {
 			}
 		}

@@ -50,6 +50,9 @@ public final class GunClient {
 	private static float kick, kickOld;
 	private static float slide, slideOld;
 	private static int cooldown, flash, equip, equipOld;
+	/** Ticks since the gun was drawn and since the last shot, for Bodycam's equip and fire animations. */
+	private static int equipAge = 1000, fireAge = 1000;
+	private static boolean fireEmpty;
 	private static int reloadTicks, reloadTotal, reloadVariant;
 	private static boolean reloadEmpty;
 	private static boolean triggerWasDown, useStartedOnBlock, useWasDown;
@@ -139,6 +142,8 @@ public final class GunClient {
 		kickOld = kick;
 		slideOld = slide;
 		equipOld = equip;
+		equipAge = Math.min(equipAge + 1, 1000);
+		fireAge = Math.min(fireAge + 1, 1000);
 		LocalPlayer player = mc.player;
 		ItemStack stack = player == null ? ItemStack.EMPTY : player.getMainHandItem();
 		Sheets.Weapon weapon = stack.getItem() instanceof ModItems.GunItem gun && ClientAssets.gun(gun.weapon.id()) != null ? gun.weapon : null;
@@ -157,6 +162,8 @@ public final class GunClient {
 			held = weapon;
 			lastSlot = slot;
 			equip = EQUIP_TICKS;
+			equipAge = 0;
+			fireAge = 1000;
 			reloadTicks = 0;
 			BodycamSounds.play(weapon.soundEquip());
 		}
@@ -219,6 +226,9 @@ public final class GunClient {
 		cooldown = weapon.fireIntervalTicks();
 		kick = 1;
 		slide = 1;
+		fireAge = 0;
+		fireEmpty = player.getMainHandItem().getOrDefault(ModItems.ROUNDS, 0) <= 1;
+		equipAge = 1000;
 		flash = 2;
 		boolean roof = !mc.level.canSeeSky(player.blockPosition().above());
 		for (String sound : roof ? weapon.soundFireIndoor() : weapon.soundFire()) {
@@ -296,10 +306,15 @@ public final class GunClient {
 
 		ArmsAssets.Rig rig = ArmsAssets.rig();
 		if (rig != null && !rig.anims(model.weapon.id(), "idle").isEmpty()) {
-			pose.translate(0, -0.22f * raise, 0);
-			pose.mulPose(Axis.XP.rotationDegrees(-45 * raise));
-			pose.translate(0, 0.004f * recoil, 0.03f * recoil);
-			pose.mulPose(Axis.XP.rotationDegrees(6 * recoil));
+			// Bodycam's own equip and fire animations replace the mod's simple raise and kick when it has them.
+			if (rig.anims(model.weapon.id(), "equip").isEmpty()) {
+				pose.translate(0, -0.22f * raise, 0);
+				pose.mulPose(Axis.XP.rotationDegrees(-45 * raise));
+			}
+			if (rig.anims(model.weapon.id(), "fire").isEmpty()) {
+				pose.translate(0, 0.004f * recoil, 0.03f * recoil);
+				pose.mulPose(Axis.XP.rotationDegrees(6 * recoil));
+			}
 			renderRig(rig, model, partialTick, aim, pose, collector, lit, slideBack, magazine);
 			pose.popPose();
 			return true;
@@ -341,14 +356,33 @@ public final class GunClient {
 		if (!aimLoop.isEmpty() && aim > 0) {
 			ArmsRenderer.blend(local, ArmsRenderer.sample(rig.skeleton, aimLoop.get(0), seconds, true), aim);
 		}
+		// Drawing the gun after a switch, played at Bodycam's own speed and faded out over its last moments.
+		RigReader.Anim equipAnim = first(rig.anims(id, "equip"));
+		float equipSeconds = (equipAge + partialTick) / 20f;
+		if (equipAnim != null && equipSeconds < equipAnim.seconds()) {
+			float weight = Mth.clamp((equipAnim.seconds() - equipSeconds) / 0.2f, 0, 1);
+			ArmsRenderer.blend(local, ArmsRenderer.sample(rig.skeleton, equipAnim, equipSeconds, false), weight);
+		}
+		RigReader.Anim reloadAnim = null, gunReloadAnim = null;
+		float reloadProgress = 0;
 		if (reloadTicks > 0 && reloadTotal > 0) {
 			List<RigReader.Anim> reloads = rig.anims(id, reloadEmpty ? "reload_empty" : "reload_partial");
+			List<RigReader.Anim> gunReloads = rig.anims(id, reloadEmpty ? "gun_reload_empty" : "gun_reload_partial");
+			reloadProgress = Mth.clamp(1 - (reloadTicks - partialTick) / reloadTotal, 0, 1);
 			if (!reloads.isEmpty()) {
-				RigReader.Anim anim = reloads.get(Math.min(reloadVariant, reloads.size() - 1));
-				float progress = Mth.clamp(1 - (reloadTicks - partialTick) / reloadTotal, 0, 1);
-				float weight = Mth.clamp(Math.min(progress, 1 - progress) * reloadTotal / 3f, 0, 1);
-				ArmsRenderer.blend(local, ArmsRenderer.sample(rig.skeleton, anim, progress * anim.seconds(), false), weight);
+				reloadAnim = reloads.get(Math.min(reloadVariant, reloads.size() - 1));
+				float weight = Mth.clamp(Math.min(reloadProgress, 1 - reloadProgress) * reloadTotal / 3f, 0, 1);
+				ArmsRenderer.blend(local, ArmsRenderer.sample(rig.skeleton, reloadAnim, reloadProgress * reloadAnim.seconds(), false), weight);
 			}
+			if (!gunReloads.isEmpty()) {
+				gunReloadAnim = gunReloads.get(Math.min(reloadVariant, gunReloads.size() - 1));
+			}
+		}
+		// Each shot: Bodycam's fire animation, stored as a motion added on top of whatever the arms are doing.
+		float fireSeconds = (fireAge + partialTick) / 20f;
+		RigReader.Anim fireAnim = first(rig.anims(id, "fire"));
+		if (fireAnim != null && fireSeconds < fireAnim.seconds()) {
+			ArmsRenderer.applyAdditive(local, fireAnim, fireSeconds, Mth.clamp((fireAnim.seconds() - fireSeconds) / 0.1f, 0, 1));
 		}
 		float[][] world = ArmsRenderer.world(rig.skeleton, local);
 		float[] camera = ArmsRenderer.camera(rig, world);
@@ -366,28 +400,18 @@ public final class GunClient {
 			pose.translate((0 - turned.x) * aim, (-eye - turned.y) * aim, (-model.weapon.aimForward() - turned.z) * aim);
 			pose.mulPose(turn);
 		}
-		// The gun's own reload animation (same variant, same moment): the magazine comes out, the fresh one comes in
-		// from the left hand, the slide goes forward.
+		// The gun's own animation for the same moment: the reload (same variant) moves the magazines, a shot cycles the
+		// slide or bolt, drawing the gun may rack it. One at a time, in that order.
 		Map<String, Matrix4f> animated = new HashMap<>();
 		Matrix4f spare = null;
-		RigReader.Bones gunBones = rig.gunSkeletons.get(id);
-		List<RigReader.Anim> gunReloads = rig.anims(id, reloadEmpty ? "gun_reload_empty" : "gun_reload_partial");
-		if (reloadTicks > 0 && reloadTotal > 0 && gunBones != null && !gunReloads.isEmpty()) {
-			RigReader.Anim gunAnim = gunReloads.get(Math.min(reloadVariant, gunReloads.size() - 1));
-			float t = Mth.clamp(1 - (reloadTicks - partialTick) / reloadTotal, 0, 1) * gunAnim.seconds();
-			float[][] gunWorld = ArmsRenderer.world(gunBones, ArmsRenderer.sample(gunBones, gunAnim, t, false));
-			float[][] rest = rig.gunRest.get(id);
-			int spareBone = model.weapon.spareMagazineBone().isEmpty() ? -1 : gunBones.index(model.weapon.spareMagazineBone());
-			for (ClientAssets.PartMesh part : model.parts) {
-				int bone = part.bone.isEmpty() ? -1 : gunBones.index(part.bone);
-				if (bone < 0) {
-					continue;
-				}
-				animated.put(part.id, ArmsRenderer.scale(gunAnim, bone, t) < 0.5f ? null : ArmsRenderer.partInModel(gunWorld[bone], rest[bone]));
-				if (part.motion.equals("magazine") && spareBone >= 0 && ArmsRenderer.scale(gunAnim, spareBone, t) >= 0.5f) {
-					spare = ArmsRenderer.partInModel(gunWorld[spareBone], rest[bone]);
-				}
-			}
+		RigReader.Anim gunFire = first(rig.anims(id, fireEmpty ? "gun_fire_empty" : "gun_fire"));
+		RigReader.Anim gunEquip = first(rig.anims(id, "gun_equip"));
+		if (gunReloadAnim != null) {
+			spare = ArmsRenderer.gunParts(rig, model, gunReloadAnim, reloadProgress * gunReloadAnim.seconds(), animated);
+		} else if (gunFire != null && fireSeconds < gunFire.seconds()) {
+			ArmsRenderer.gunParts(rig, model, gunFire, fireSeconds, animated);
+		} else if (gunEquip != null && equipSeconds < gunEquip.seconds()) {
+			ArmsRenderer.gunParts(rig, model, gunEquip, equipSeconds, animated);
 		}
 
 		ArmsRenderer.submit(collector, pose, rig, world, camera, light);
@@ -395,5 +419,9 @@ public final class GunClient {
 		pose.mulPose(gunInView);
 		GunRenderer.submit(collector, pose, model, light, slideBack, animated.isEmpty() ? magazine : 0, null, animated, spare);
 		pose.popPose();
+	}
+
+	private static RigReader.Anim first(List<RigReader.Anim> anims) {
+		return anims.isEmpty() ? null : anims.get(0);
 	}
 }

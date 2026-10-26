@@ -162,7 +162,7 @@ def preflight(sheets, quiet=False):
                 problems.append("anims.%s: %d variants but sound %s has %d" % (anim["id"], len(anim["paths"]), sound["id"], len(sound["paths"])))
         if anim["gun_paths"] and len(anim["gun_paths"]) != len(anim["paths"]):
             problems.append("anims.%s: %d gun_paths for %d paths" % (anim["id"], len(anim["gun_paths"]), len(anim["paths"])))
-        elif anim["kind"] not in ("idle", "aim", "reload_empty", "reload_partial"):
+        elif anim["kind"] not in ("idle", "aim", "reload_empty", "reload_partial", "fire", "fire_empty", "equip"):
             problems.append("anims.%s.kind: unknown kind %s" % (anim["id"], anim["kind"]))
 
     if not quiet:

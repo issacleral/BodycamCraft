@@ -70,6 +70,14 @@ own mobs. Solo. Host = Minecraft Java (Fabric), Bodycam = content source read fr
   animated(bone) * inverse(reference(bone)), mapped to model space like the arms. Bodycam hides magazines with a scale
   track of 0. The fresh magazine is the magazine part drawn again on magazine_spare (weapons.spare_magazine_bone).
   Verified on the Glock partial reload: magazine out, the left hand pushes the fresh one in. M4A1 reload not looked at.
+- M4A1 reload checked (2026-10-26): with M4_Skeleton the magazine sits in the well, then the left hand holds the
+  fresh magazine next to the old one (Bodycam's calm reload). Autotest now also reloads the M4A1 (30 -> 24 -> 30).
+- Step 3c (2026-10-26): A_FP_*_Fire is additive (scale 0, deltas from the idle loop): applied per bone as
+  rotation = delta * rotation, translation += delta, weighted. Gun-side A_W_*_Fire / Fire_Empty / Equip drive the parts
+  like the reloads (priority reload > fire > equip). Equip plays at Bodycam's speed (about 2 s) while firing is still
+  allowed after 7 ticks; a shot cuts the equip animation. Where Bodycam has these animations the mod's own raise and
+  kick are off. Verified: the Glock jumps up and back 3 ticks after a shot and settles by 6; the M4A1 comes up from
+  below after a switch.
 - Python: the Microsoft Store python behind tools/pyenv stopped starting (even `print(1)` hangs). tools/py312 is a uv
   venv on a uv-managed CPython 3.12.11 with numpy and Pillow; use it for design/sheets.py and recon. Heredocs with
   backslashes still get mangled by the shell: edit Python files with the editor, not with `python - <<EOF` patches.

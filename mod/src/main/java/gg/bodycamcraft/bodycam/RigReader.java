@@ -349,7 +349,7 @@ public final class RigReader {
 			return c;
 		}
 
-		static float[] qmul(float[] a, float[] b) {
+		public static float[] qmul(float[] a, float[] b) {
 			return new float[] {
 				a[3] * b[0] + a[0] * b[3] + a[1] * b[2] - a[2] * b[1],
 				a[3] * b[1] - a[0] * b[2] + a[1] * b[3] + a[2] * b[0],

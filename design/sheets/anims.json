@@ -3,7 +3,7 @@
   "_columns": {
     "id": "key",
     "weapon": "ref weapons.id",
-    "kind": "idle|aim|reload_empty|reload_partial",
+    "kind": "idle|aim|reload_empty|reload_partial|fire (additive arm motion)|fire_empty|equip",
     "paths": "bodycam path list",
     "gun_paths": "bodycam path list: the gun-side animation for each entry of paths (same order), or empty"
   },
@@ -112,7 +112,79 @@
         "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Weapon/A_W_M4A1_ReloadPartial_Calm01",
         "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Weapon/A_W_M4A1_ReloadPartial_Calm02"
       ],
+      "verified": "autotest 2026-10-26: rifle tilts, left hand holds the fresh magazine next to the old one; 30 rounds after"
+    },
+    {
+      "id": "glock_fire",
+      "weapon": "glock17",
+      "kind": "fire",
+      "paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_Fire"
+      ],
+      "gun_paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Weapon/A_W_Glock_Fire"
+      ],
+      "verified": "autotest 2026-10-26: gun and hands kick up and back 3 ticks after a shot, settle by 6"
+    },
+    {
+      "id": "glock_fire_empty",
+      "weapon": "glock17",
+      "kind": "fire_empty",
+      "paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_Fire"
+      ],
+      "gun_paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Weapon/A_W_Glock_Fire_Empty"
+      ],
       "verified": "pending: not yet seen in game"
+    },
+    {
+      "id": "glock_equip",
+      "weapon": "glock17",
+      "kind": "equip",
+      "paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_Equip"
+      ],
+      "gun_paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Weapon/A_W_Glock_Equip"
+      ],
+      "verified": "pending: not yet seen in game"
+    },
+    {
+      "id": "m4_fire",
+      "weapon": "m4a1",
+      "kind": "fire",
+      "paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Character/A_FP_M4A1_Fire"
+      ],
+      "gun_paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Weapon/A_W_M4A1_Fire"
+      ],
+      "verified": "autotest 2026-10-26: rifle fires from the hip with the animation running (screenshot)"
+    },
+    {
+      "id": "m4_fire_empty",
+      "weapon": "m4a1",
+      "kind": "fire_empty",
+      "paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Character/A_FP_M4A1_Fire"
+      ],
+      "gun_paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Weapon/A_W_M4A1_Fire_Empty"
+      ],
+      "verified": "pending: not yet seen in game"
+    },
+    {
+      "id": "m4_equip",
+      "weapon": "m4a1",
+      "kind": "equip",
+      "paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Character/A_FP_M4A1_Equip"
+      ],
+      "gun_paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Weapon/A_W_M4A1_Equip"
+      ],
+      "verified": "autotest 2026-10-26: rifle comes up from below after the switch"
     }
   ]
 }
