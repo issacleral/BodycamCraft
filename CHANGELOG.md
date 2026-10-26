@@ -3,6 +3,16 @@
 Each version names the Minecraft and Bodycam builds it was tested with. After a game update, run the in-game
 check (`cd mod && gradlew runClient -Pautotest`) before releasing again.
 
+## 0.3.0 (2026-10-26)
+Minecraft 1.21.11, Fabric Loader 0.19.5, Bodycam Steam build 25505592.
+- Bodycam's first-person arms (gloves, sleeves) hold the guns, read from the player's own copy like everything else.
+- Bodycam's own animations: idle, aiming, drawing the gun, the recoil of each shot, and every reload variant, each
+  played with the reload sound of the same name.
+- The guns move with their own Bodycam animations: the magazine comes out, the fresh one comes in from the left hand,
+  the slide and bolt cycle, the slide locks back on the last round.
+- The M4A1 sits at chest height and aims along the rail; its magazine is seated where Bodycam puts it.
+- A third native decoder, `bcacl.dll` (ACL 2.1, MIT), reads Bodycam's compressed animations.
+
 ## 0.2.1 (2026-10-07)
 Minecraft 1.21.11, Fabric Loader 0.19.5, Bodycam Steam build 25505592.
 - M4A1 tuned for Minecraft's mobs: damage 13, less hip spread, lighter recoil, a closer hold.

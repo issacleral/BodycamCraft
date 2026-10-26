@@ -91,13 +91,15 @@ Fabric API (instances/BodycamCraft/.minecraft/mods/%(fabric_api)s)
   Source:  https://github.com/FabricMC/fabric
 
 BodycamCraft (instances/BodycamCraft/.minecraft/mods/bodycamcraft-*.jar, installed by Melty)
-  See THIRD-PARTY-bodycamcraft.txt inside the jar for the two decoders it bundles (oozextract, MIT; vgmstream, ISC).
+  See THIRD-PARTY-bodycamcraft.txt inside the jar for the three decoders it bundles (oozextract, MIT; vgmstream, ISC;
+  ACL and RTM, MIT).
 """
 
 
 README = """BodycamCraft
 ============
-Minecraft survival played as bodycam footage, with the real Glock 17 and gun sounds from your own copy of Bodycam.
+Minecraft survival played as bodycam footage, with the real guns, arms, animations and sounds from your own copy of
+Bodycam.
 
 You need Minecraft: Java Edition and Bodycam installed on Steam. Nothing of Bodycam's is in this package.
 

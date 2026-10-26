@@ -1,8 +1,8 @@
 # BodycamCraft
 
-**Minecraft survival jugado como una grabación de bodycam, con la Glock 17 y los sonidos reales de tu propia copia de [Bodycam](https://store.steampowered.com/app/2406770/Bodycam/).**
+**Minecraft survival jugado como una grabación de bodycam, con las armas, los brazos, las animaciones y los sonidos reales de tu propia copia de [Bodycam](https://store.steampowered.com/app/2406770/Bodycam/).**
 
-*Minecraft survival played as bodycam footage, with the real Glock 17 and gun sounds from your own copy of Bodycam. [English below](#english).*
+*Minecraft survival played as bodycam footage, with the real guns, arms, animations and sounds from your own copy of Bodycam. [English below](#english).*
 
 [![hecho con universal-modder](https://raw.githubusercontent.com/rehan-remade/universal-modder/main/docs/media/made-with-dark.svg)](https://github.com/rehan-remade/universal-modder)
 [![licencia: MIT](https://img.shields.io/badge/licencia-MIT-blue)](LICENSE)
@@ -10,7 +10,7 @@
 
 ![Vista desde la cadera](media/autotest_01_hip.png)
 
-**[Ver el vídeo de demostración (29 s)](media/bodycamcraft_demo.mp4)** · [Cambios por versión](CHANGELOG.md)
+**[Ver el vídeo de demostración (33 s)](media/bodycamcraft_demo.mp4)** · [Cambios por versión](CHANGELOG.md)
 
 ## De qué va
 
@@ -18,18 +18,19 @@ Apareces en un mundo normal de supervivencia de Minecraft con la Glock 17 y el M
 
 - **Las armas de verdad.** La Glock 17 (semiautomática, 17 balas) y el M4A1 (automático, 30 balas): sus modelos, texturas, disparos, sonidos de recarga y tamaño de cargador se leen de tu copia de Bodycam mientras juegas. El mod no incluye ningún archivo de Bodycam.
 - **Cámara en el pecho.** Lente de ojo de pez con esquinas oscuras, grano, balanceo al andar y marca de grabación. No hay mira en pantalla; la barra de objetos y los corazones solo aparecen un momento al cambiar de objeto o recibir daño.
-- **Manejo de arma al estilo Bodycam.** El arma se mueve libremente dentro de un pequeño margen antes de que gire la cámara, las balas van adonde apunta el arma (no al centro de la pantalla), el retroceso la levanta y la recarga dura lo mismo que el sonido de recarga de Bodycam.
+- **Los brazos y las animaciones de Bodycam.** Ves tus brazos con guantes sujetando el arma, y se mueven con las animaciones de Bodycam: reposo, apuntar, sacar el arma, el retroceso de cada disparo y todas las variantes de recarga, cada una con su sonido. El arma también se anima: el cargador sale, la mano izquierda mete el nuevo y la corredera se queda atrás con el último disparo.
+- **Manejo de arma al estilo Bodycam.** El arma se mueve libremente dentro de un pequeño margen antes de que gire la cámara y las balas van adonde apunta el arma (no al centro de la pantalla).
 - **Minecraft sigue siendo Minecraft.** El mundo, los mobs, construir y fabricar no cambian.
 
-| Apuntando | Disparando | Inventario |
+| Apuntando | Recargando | M4A1 |
 |---|---|---|
-| ![Apuntando](media/autotest_03_aim.png) | ![Disparando](media/autotest_02_shot.png) | ![Inventario](media/autotest_06_inventory.png) |
+| ![Apuntando](media/autotest_03_aim.png) | ![Recargando](media/autotest_04_reload.png) | ![M4A1](media/autotest_08_m4_aim.png) |
 
 ## Qué necesitas
 
 - **Minecraft: Java Edition** (cuenta de Microsoft que lo tenga).
 - **Bodycam instalado en Steam.** Sin Bodycam el juego te avisa en pantalla y el arma no está disponible.
-- Windows (los archivos de Bodycam se leen con dos pequeños descodificadores nativos para Windows).
+- Windows (los archivos de Bodycam se leen con tres pequeños descodificadores nativos para Windows).
 
 ## Cómo se instala
 
@@ -88,8 +89,8 @@ El registro está en `Prism/instances/BodycamCraft/.minecraft/logs/latest.log`, 
 
 Un solo jugador y dos armas (Glock 17 y M4A1).
 
-- No se ven manos ni brazos sujetando el arma.
-- El movimiento de recarga y de retroceso es propio del mod, no las animaciones de Bodycam.
+- La animación de sacar el arma dura lo mismo que en Bodycam (unos 2 s), pero puedes disparar antes y se corta.
+- Los brazos se deforman en el procesador en cada fotograma; en equipos lentos puede notarse.
 - El daño, la dispersión y el retroceso están ajustados para los mobs de Minecraft; el tamaño del cargador sí es el de Bodycam.
 - Probado con una prueba automática dentro del juego (equipo inicial, disparo, impacto, recarga). El apuntado libre con ratón y los sonidos aún necesitan más pruebas a mano.
 
@@ -100,8 +101,10 @@ Tu copia de Bodycam (Steam)                    Minecraft 1.21.11 + Fabric
   Content/Paks/*.pak  ── solo lectura ──>        gg.bodycamcraft.bodycam   lee el índice de los .pak
     mallas y sockets del arma                      bcoodle.dll             descomprime (Oodle)
     texturas virtuales (DXT)                       bcbinka.dll             descodifica el audio (Bink)
-    sonidos (Bink Audio)                         GunRenderer, BodycamSounds  dibuja y hace sonar el arma
-    tabla de cargadores (DT_MAG)                 GunLogic (servidor)       disparo, impacto, recarga
+    sonidos (Bink Audio)                           bcacl.dll               descomprime las animaciones (ACL)
+    brazos, esqueleto y animaciones              ArmsRenderer              pone los brazos en postura y los dibuja
+    tabla de cargadores (DT_MAG)                 GunRenderer, BodycamSounds  dibuja y hace sonar el arma
+                                                 GunLogic (servidor)       disparo, impacto, recarga
                                                  BodycamView + bodycam.fsh lente, grano, balanceo
 ```
 
@@ -109,7 +112,7 @@ Nada de Bodycam se copia al disco ni al paquete: los datos se leen al arrancar e
 
 - `mod/`: el mod de Fabric (Java). `mod/src/main/java/gg/bodycamcraft/bodycam/` lee los archivos `.pak` de Bodycam: mallas, texturas, sonidos y la tabla de cargadores.
 - `design/sheets/`: hojas JSON con todo el diseño (armas, piezas, sonidos, cámara, objetos, enganches con Minecraft). Son la fuente de verdad; `python design/sheets.py gen` las comprueba y genera código y recursos a partir de ellas.
-- `native/`: el código de los dos descodificadores (`bcoodle`, `bcbinka`).
+- `native/`: el código de los tres descodificadores (`bcoodle`, `bcbinka`, `bcacl`).
 - `package.py`: empaqueta una versión (el `.jar` y un Prism Launcher portátil con la instancia lista).
 - `melty.json`: la receta de instalación para Melty.
 
@@ -134,6 +137,7 @@ Código de BodycamCraft bajo licencia [MIT](LICENSE). Puedes hacer remixes. Auto
 
 - [oozextract](https://github.com/lvlvllvlvllvlvl/oozextract) (MIT): descompresión de los archivos de Bodycam.
 - [vgmstream](https://github.com/vgmstream/vgmstream) (ISC): descodificador de Bink Audio.
+- [ACL](https://github.com/nfrechette/acl) y [RTM](https://github.com/nfrechette/rtm) (MIT): descompresión de las animaciones de Bodycam.
 - [Fabric](https://fabricmc.net/) y [Prism Launcher](https://prismlauncher.org/) (GPL-3.0), incluidos en el paquete de Melty.
 - El kit [universal-modder](https://github.com/rehan-remade/universal-modder): su forma de trabajar, sus reglas y su comprobación previa a publicar.
 
@@ -147,7 +151,8 @@ BodycamCraft drops you into a normal Minecraft survival world holding Bodycam's 
 
 - **The real guns.** The Glock 17 (semi-auto, 17 rounds) and the M4A1 (full auto, 30 rounds): models, textures, gunshots, reload sounds and magazine sizes are read from your own copy of Bodycam while the game runs. The mod ships nothing of Bodycam's.
 - **Chest camera.** Fisheye lens with dark corners, grain, sway and a recording stamp. No crosshair; the hotbar and hearts only peek in after a slot change or a hit.
-- **Bodycam-style handling.** The gun aims freely inside a small box before the camera turns, shots go where the gun points, and a reload takes as long as Bodycam's own reload sound.
+- **Bodycam's arms and animations.** Your gloved arms hold the gun and move with Bodycam's own animations: idle, aiming, drawing, the recoil of each shot and every reload variant, each with its sound. The gun animates too: the magazine comes out, the left hand brings the fresh one in, the slide locks back on the last round.
+- **Bodycam-style handling.** The gun aims freely inside a small box before the camera turns, and shots go where the gun points.
 
 **You need** Minecraft: Java Edition, Bodycam installed on Steam, and Windows.
 
@@ -155,7 +160,7 @@ BodycamCraft drops you into a normal Minecraft survival world holding Bodycam's 
 
 **Controls:** left click fires, hold right click to aim, **R** reloads, **V** toggles the bodycam view. Craft magazines from an iron ingot, a copper ingot and gunpowder.
 
-**Limits:** single player, two guns, no hands on the gun; reload and recoil motion and the damage numbers are this mod's own.
+**Limits:** single player, two guns; the damage numbers are this mod's own. Bodycam's arms and animations (draw, recoil, every reload) are used as they are.
 
 **Trouble?** Melty needs about 2 GB free. The log is `Prism/instances/BodycamCraft/.minecraft/logs/latest.log` in the folder Melty installed to. Report problems in [Issues](../../issues).
 

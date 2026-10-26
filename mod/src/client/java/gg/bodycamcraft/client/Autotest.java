@@ -175,7 +175,7 @@ public final class Autotest {
 			mc.gui.getChat().clearMessages(false);
 		}
 		if (t == 70) {
-			caption = "Minecraft survival, seen through a chest camera. No crosshair.";
+			caption = "Minecraft survival through a chest camera, with Bodycam's own arms.";
 		}
 		if (t == 95) {
 			caption = "Free aim: the gun moves first, then the camera turns.";
@@ -216,7 +216,7 @@ public final class Autotest {
 			GunClient.testTrigger = true;
 		}
 		if (t == 366) {
-			caption = "R reloads. It takes as long as Bodycam's own reload.";
+			caption = "R reloads, with Bodycam's own reload animation and sound.";
 			GunClient.testReload = true;
 		}
 		if (t == 450) {
@@ -237,22 +237,26 @@ public final class Autotest {
 		if ((t >= 496 && t < 508) || (t >= 528 && t < 540)) {
 			yaw += 8.7f * 0.15f;
 		}
-		if (t == 566) {
+		if (t == 560) {
+			caption = "Every move is Bodycam's: draw, recoil, reload.";
+			GunClient.testReload = true;
+		}
+		if (t == 640) {
 			caption = "Craft magazines: iron + copper + gunpowder. The M4A1 is craftable too.";
 			mc.setScreen(new InventoryScreen(mc.player));
 		}
-		if (t == 606) {
+		if (t == 680) {
 			mc.setScreen(null);
 			caption = "BodycamCraft. Needs Minecraft: Java Edition and Bodycam on Steam.";
 		}
-		if (t >= 70 && t < 650) {
+		if (t >= 70 && t < 724) {
 			Screenshot.grab(mc.gameDirectory, String.format("%s_%04d.png", RUN, t - 70), mc.getMainRenderTarget(), 1, message -> {
 			});
 		}
-		if (t == 650) {
+		if (t == 724) {
 			BodycamCraft.LOGGER.info("AUTOTEST demo frames saved as {}_NNNN.png; shots {} reloads {}", RUN, GunClient.shotsFired, GunClient.reloadsStarted);
 		}
-		if (t == 670) {
+		if (t == 744) {
 			mc.stop();
 		}
 	}
