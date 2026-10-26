@@ -4,9 +4,9 @@
 
 *Minecraft survival played as bodycam footage, with the real guns, arms, animations and sounds from your own copy of Bodycam. [English below](#english).*
 
-[![hecho con universal-modder](https://raw.githubusercontent.com/rehan-remade/universal-modder/main/docs/media/made-with-dark.svg)](https://github.com/rehan-remade/universal-modder)
 [![licencia: MIT](https://img.shields.io/badge/licencia-MIT-blue)](LICENSE)
 [![jugar en Melty](https://img.shields.io/badge/jugar-Melty-ff5a5f)](https://melty.gg/m/bodycamcraft)
+
 
 ![Vista desde la cadera](media/autotest_01_hip.png)
 
