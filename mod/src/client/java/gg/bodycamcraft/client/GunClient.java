@@ -412,6 +412,15 @@ public final class GunClient {
 			ArmsRenderer.gunParts(rig, model, gunFire, fireSeconds, animated);
 		} else if (gunEquip != null && equipSeconds < gunEquip.seconds()) {
 			ArmsRenderer.gunParts(rig, model, gunEquip, equipSeconds, animated);
+		} else {
+			// At rest the parts sit where Bodycam's animations put them, which is not always where the gun's sockets do
+			// (the M4A1 magazine would ride 6 cm high and show through the sights): the end of a shot, or of the shot
+			// that emptied the gun, with the slide locked back.
+			boolean empty = player != null && player.getMainHandItem().getOrDefault(ModItems.ROUNDS, 0) == 0;
+			RigReader.Anim rest = first(rig.anims(id, empty ? "gun_fire_empty" : "gun_fire"));
+			if (rest != null) {
+				ArmsRenderer.gunParts(rig, model, rest, rest.seconds(), animated);
+			}
 		}
 
 		ArmsRenderer.submit(collector, pose, rig, world, camera, light);

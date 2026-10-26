@@ -78,10 +78,13 @@ own mobs. Solo. Host = Minecraft Java (Fabric), Bodycam = content source read fr
   allowed after 7 ticks; a shot cuts the equip animation. Where Bodycam has these animations the mod's own raise and
   kick are off. Verified: the Glock jumps up and back 3 ticks after a shot and settles by 6; the M4A1 comes up from
   below after a switch.
-- Fixes after the user played (2026-10-26): (1) the M4A1 magazine jumped up in front of the sights whenever a gun
-  animation played (shots, equip): A_W_M4A1_* keep the magazine 6.4 cm from where M4_Skeleton's reference pose puts
-  it. Parts now move relative to the gun at rest as the end of its normal fire animation, and only for tracks that
-  actually change. (2) The hands shook on every pistol shot: A_FP_*_Fire are mesh-space rotation offsets (the same
+- Fixes after the user played (2026-10-26): (1) the top of the M4A1 magazine (the brass) showed through the receiver
+  right behind the sight once a reload or shot was over. The gun is assembled with the magazine on M4A1A_Skeleton's
+  Magazine socket, 6.4 cm higher than Bodycam's animations seat it (A_W_M4A1_* keep the magazine bone 6.4 cm below
+  M4_Skeleton's reference pose). A first fix that measured parts from the animation instead of the skeleton made it
+  worse (the user circled it in a screenshot). Real fix: parts move relative to the skeleton's reference pose, and
+  at rest they take the pose of the end of the gun's fire animation (fire_empty when the gun is empty, slide locked).
+  (2) The hands shook on every pistol shot: A_FP_*_Fire are mesh-space rotation offsets (the same
   16 degree turn on hand_r, hand_l and ik_hand_gun), applied per bone in local space they piled up along each arm.
   They are now applied as Unreal does: rotations in component space, a bone without an offset keeps its component
   rotation, translations in local space. Verified with screenshots every tick after a Glock shot and an aimed M4A1 burst.

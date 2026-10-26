@@ -163,7 +163,7 @@ public final class ArmsRenderer {
 		Matrix4f spare = null;
 		for (ClientAssets.PartMesh part : model.parts) {
 			int bone = part.bone.isEmpty() ? -1 : bones.index(part.bone);
-			if (bone < 0 || !moves(anim, bone)) {
+			if (bone < 0 || !animates(anim, bone)) {
 				continue;
 			}
 			out.put(part.id, scale(anim, bone, seconds) < 0.5f ? null : partInModel(world[bone], rest[bone]));
