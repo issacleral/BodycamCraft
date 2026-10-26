@@ -1,0 +1,34 @@
+{
+  "_sheet": "First-person arms. The arms mesh, posed by Bodycam's animations, holds the gun; the camera sits at a bone of the same skeleton.",
+  "_columns": {
+    "id": "key",
+    "mesh": "bodycam path",
+    "skeleton": "bodycam path",
+    "materials": "bodycam path list, one per mesh section in order",
+    "texture_size": "pixels",
+    "camera_bone": "bone the camera sits at (its position only)",
+    "camera_offset_cm": "x y z added to that position, Unreal component axes (y forward, z up)",
+    "gun_bone": "bone the gun's origin sits on, rotation included"
+  },
+  "rows": [
+    {
+      "id": "fp_arms",
+      "mesh": "Bodycam/Content/BodycamSkin/Arms/Basic/SKM_HumanArmsLongSleeves_Morphers",
+      "skeleton": "Bodycam/Content/AdvancedLocomotionV4/CharacterAssets/MannequinSkeleton/ALS_Mannequin_Skeleton",
+      "materials": [
+        "Bodycam/Content/BodycamSkin/Arms/Basic/Textures/MI_Arms",
+        "Bodycam/Content/BodycamSkin/Arms/Basic/Textures/MI_Gloves",
+        "Bodycam/Content/BodycamSkin/Arms/Basic/Textures/MI_Sleeves"
+      ],
+      "texture_size": 1024,
+      "camera_bone": "head",
+      "camera_offset_cm": [
+        0,
+        0,
+        -4
+      ],
+      "gun_bone": "ik_hand_gun",
+      "verified": "autotest 2026-10-26: arms with their textures hold the Glock and the M4A1 in first person"
+    }
+  ]
+}

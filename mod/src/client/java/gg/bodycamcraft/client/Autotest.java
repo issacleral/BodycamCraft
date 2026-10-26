@@ -122,6 +122,7 @@ public final class Autotest {
 			case 150 -> GunClient.testAim = false;
 			case 160 -> GunClient.testReload = true;
 			case 185 -> shot(mc, "04_reload");
+			case 205, 225, 245, 265 -> shot(mc, "04_reload_" + (tick - 185) / 20);
 			case 330 -> {
 				roundsAfterReload = mc.player.getMainHandItem().getOrDefault(ModItems.ROUNDS, -1);
 				reloadDone = GunClient.reloading() ? 0 : 1;

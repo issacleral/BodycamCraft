@@ -81,7 +81,6 @@
       "id": "hold",
       "what": "How aiming down the sights lines up; where each gun sits is in the weapons sheet.",
       "params": {
-        "aim_sight_drop": 0.003,
         "aim_ticks": 4.0
       },
       "verified": "in-game autotest 2026-10-07 (PASS) + screenshots (hip and aimed)"

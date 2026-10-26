@@ -7,7 +7,8 @@
     "kind": "skeletal|static",
     "socket": "socket or bone on the weapon skeleton, empty for the frame",
     "motion": "none|slide|magazine",
-    "socket_skeleton": "bodycam path of another skeleton that has the socket, or empty for the weapon skeleton"
+    "socket_skeleton": "bodycam path of another skeleton that has the socket, or empty for the weapon skeleton",
+    "bone": "bone of the weapon anim_skeleton this part follows in Bodycam animations, or empty"
   },
   "rows": [
     {
@@ -17,8 +18,9 @@
       "kind": "skeletal",
       "socket": "",
       "motion": "none",
-      "verified": "Dump test + render",
-      "socket_skeleton": ""
+      "socket_skeleton": "",
+      "bone": "",
+      "verified": "Dump test + render"
     },
     {
       "id": "glock17_slide",
@@ -27,8 +29,9 @@
       "kind": "static",
       "socket": "Slide",
       "motion": "slide",
-      "verified": "Dump test + render",
-      "socket_skeleton": ""
+      "socket_skeleton": "",
+      "bone": "slide",
+      "verified": "Dump test + render"
     },
     {
       "id": "glock17_barrel",
@@ -37,8 +40,9 @@
       "kind": "static",
       "socket": "Threaded_Barrel",
       "motion": "none",
-      "verified": "Dump test + render",
-      "socket_skeleton": ""
+      "socket_skeleton": "",
+      "bone": "",
+      "verified": "Dump test + render"
     },
     {
       "id": "glock17_magazine",
@@ -47,8 +51,9 @@
       "kind": "static",
       "socket": "magazine",
       "motion": "magazine",
-      "verified": "Dump test + render",
-      "socket_skeleton": ""
+      "socket_skeleton": "",
+      "bone": "magazine",
+      "verified": "Dump test + render; autotest 2026-10-26: follows Bodycam reload animation (out, spare in from the left hand)"
     },
     {
       "id": "glock17_trigger",
@@ -57,8 +62,9 @@
       "kind": "static",
       "socket": "Trigger",
       "motion": "none",
-      "verified": "Dump test + render",
-      "socket_skeleton": ""
+      "socket_skeleton": "",
+      "bone": "",
+      "verified": "Dump test + render"
     },
     {
       "id": "m4a1_frame",
@@ -68,6 +74,7 @@
       "socket": "",
       "motion": "none",
       "socket_skeleton": "",
+      "bone": "",
       "verified": "in-game autotest 2026-10-07 (PASS) + screenshots (trigger placed with the socket of M4_Skeleton)"
     },
     {
@@ -78,6 +85,7 @@
       "socket": "Barrel",
       "motion": "none",
       "socket_skeleton": "",
+      "bone": "",
       "verified": "in-game autotest 2026-10-07 (PASS) + screenshots (trigger placed with the socket of M4_Skeleton)"
     },
     {
@@ -88,6 +96,7 @@
       "socket": "Grip",
       "motion": "none",
       "socket_skeleton": "",
+      "bone": "",
       "verified": "in-game autotest 2026-10-07 (PASS) + screenshots (trigger placed with the socket of M4_Skeleton)"
     },
     {
@@ -98,6 +107,7 @@
       "socket": "Stock",
       "motion": "none",
       "socket_skeleton": "",
+      "bone": "",
       "verified": "in-game autotest 2026-10-07 (PASS) + screenshots (trigger placed with the socket of M4_Skeleton)"
     },
     {
@@ -108,6 +118,7 @@
       "socket": "Magazine",
       "motion": "magazine",
       "socket_skeleton": "",
+      "bone": "magazine",
       "verified": "in-game autotest 2026-10-07 (PASS) + screenshots (trigger placed with the socket of M4_Skeleton)"
     },
     {
@@ -118,6 +129,7 @@
       "socket": "Trigger",
       "motion": "none",
       "socket_skeleton": "Bodycam/Content/BodycamWeapons/Guns/M4A1/M4_Skeleton",
+      "bone": "",
       "verified": "in-game autotest 2026-10-07 (PASS) + screenshots (trigger placed with the socket of M4_Skeleton)"
     }
   ]

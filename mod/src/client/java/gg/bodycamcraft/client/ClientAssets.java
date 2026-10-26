@@ -25,14 +25,17 @@ public final class ClientAssets {
 	public static final class PartMesh {
 		public final String id;
 		public final String motion;
+		/** Bone of the weapon's animation skeleton this part follows, or "". */
+		public final String bone;
 		public final float[] positions;
 		public final float[] normals;
 		public final float[] uvs;
 		public final int[] indices;
 
-		PartMesh(String id, String motion, float[] positions, float[] normals, float[] uvs, int[] indices) {
+		PartMesh(String id, String motion, String bone, float[] positions, float[] normals, float[] uvs, int[] indices) {
 			this.id = id;
 			this.motion = motion;
+			this.bone = bone;
 			this.positions = positions;
 			this.normals = normals;
 			this.uvs = uvs;
@@ -98,14 +101,16 @@ public final class ClientAssets {
 			for (Sheets.Weapon weapon : Sheets.WEAPONS) {
 				List<GunAssets.PartDef> defs = new ArrayList<>();
 				Map<String, String> motions = new HashMap<>();
+				Map<String, String> bones = new HashMap<>();
 				for (Sheets.Part part : Sheets.PARTS) {
 					if (part.weapon().equals(weapon.id())) {
 						defs.add(new GunAssets.PartDef(part.id(), part.mesh(), part.skeletal(), part.socket(), part.socketSkeleton()));
 						motions.put(part.id(), part.motion());
+						bones.put(part.id(), part.bone());
 					}
 				}
 				GunAssets.Gun gun = GunAssets.load(pak, weapon.skeleton(), defs, weapon.material(), weapon.muzzleSocket(), weapon.textureSize());
-				GunModel model = convert(weapon, gun, motions);
+				GunModel model = convert(weapon, gun, motions, bones);
 				GUNS.put(weapon.id(), model);
 				textures.put(model, gun.texture());
 			}
@@ -123,14 +128,15 @@ public final class ClientAssets {
 				SOUNDS.put(sound.id(), variants);
 			}
 			BodycamCraft.LOGGER.info("Loaded {} gun(s) and {} sounds from Bodycam in {} ms", GUNS.size(), decoded, (System.nanoTime() - start) / 1_000_000);
-			Minecraft.getInstance().execute(() -> upload(textures));
+			Map<Identifier, TextureReader.Image> arms = ArmsAssets.load(pak);
+			Minecraft.getInstance().execute(() -> upload(textures, arms));
 		} catch (Throwable e) {
 			BodycamCraft.LOGGER.error("Could not load the guns from Bodycam", e);
 		}
 	}
 
 	/** Unreal (x right, y forward, z up, cm, left-handed) to gun space (metres, y up, muzzle towards -z). */
-	private static GunModel convert(Sheets.Weapon weapon, GunAssets.Gun gun, Map<String, String> motions) {
+	private static GunModel convert(Sheets.Weapon weapon, GunAssets.Gun gun, Map<String, String> motions, Map<String, String> bones) {
 		GunModel model = new GunModel(weapon);
 		for (GunAssets.Part part : gun.parts()) {
 			MeshReader.Mesh mesh = part.mesh();
@@ -156,25 +162,30 @@ public final class ClientAssets {
 					model.rearZ = Math.max(model.rearZ, z);
 				}
 			}
-			model.parts.add(new PartMesh(part.id(), motions.get(part.id()), positions, normals, mesh.uvs(), mesh.indices()));
+			model.parts.add(new PartMesh(part.id(), motions.get(part.id()), bones.getOrDefault(part.id(), ""), positions, normals, mesh.uvs(), mesh.indices()));
 		}
 		model.muzzle = new float[] {-gun.muzzle()[0] * 0.01f, gun.muzzle()[2] * 0.01f, -gun.muzzle()[1] * 0.01f};
 		return model;
 	}
 
 	// hook: gun_texture
-	private static void upload(Map<GunModel, TextureReader.Image> textures) {
+	private static void upload(Map<GunModel, TextureReader.Image> textures, Map<Identifier, TextureReader.Image> arms) {
 		for (Map.Entry<GunModel, TextureReader.Image> entry : textures.entrySet()) {
-			TextureReader.Image image = entry.getValue();
-			NativeImage pixels = new NativeImage(image.width(), image.height(), false);
-			for (int y = 0; y < image.height(); y++) {
-				for (int x = 0; x < image.width(); x++) {
-					pixels.setPixel(x, y, image.argb()[y * image.width() + x]);
-				}
-			}
-			Identifier id = entry.getKey().texture;
-			Minecraft.getInstance().getTextureManager().register(id, new DynamicTexture(id::toString, pixels));
+			register(entry.getKey().texture, entry.getValue());
+		}
+		for (Map.Entry<Identifier, TextureReader.Image> entry : arms.entrySet()) {
+			register(entry.getKey(), entry.getValue());
 		}
 		ready = true;
+	}
+
+	private static void register(Identifier id, TextureReader.Image image) {
+		NativeImage pixels = new NativeImage(image.width(), image.height(), false);
+		for (int y = 0; y < image.height(); y++) {
+			for (int x = 0; x < image.width(); x++) {
+				pixels.setPixel(x, y, image.argb()[y * image.width() + x]);
+			}
+		}
+		Minecraft.getInstance().getTextureManager().register(id, new DynamicTexture(id::toString, pixels));
 	}
 }

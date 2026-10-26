@@ -151,6 +151,33 @@
         "gun_client"
       ],
       "verified": "in-game autotest 2026-10-07 (PASS)"
+    },
+    {
+      "id": "rig_reader",
+      "file": "src/main/java/gg/bodycamcraft/bodycam/RigReader.java",
+      "what": "Reads a skeleton with its virtual bones, ACL animations (through bcacl.dll) and a skinned mesh with its sections and weights.",
+      "uses": [
+        "native_codecs"
+      ],
+      "verified": "autotest 2026-10-26: loaded in 185 ms and drawn"
+    },
+    {
+      "id": "arms_assets",
+      "file": "src/client/java/gg/bodycamcraft/client/ArmsAssets.java",
+      "what": "Loads the first-person arms, their three textures and every animation of the anims sheet on the loading thread.",
+      "uses": [
+        "rig_reader"
+      ],
+      "verified": "autotest 2026-10-26: loaded in 185 ms and drawn"
+    },
+    {
+      "id": "arms_renderer",
+      "file": "src/client/java/gg/bodycamcraft/client/ArmsRenderer.java",
+      "what": "Poses the arm skeleton from the animations, skins the mesh on the CPU and draws it; places the gun on the gun bone.",
+      "uses": [
+        "arms_assets"
+      ],
+      "verified": "autotest 2026-10-26: loaded in 185 ms and drawn"
     }
   ]
 }

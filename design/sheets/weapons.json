@@ -34,7 +34,11 @@
     "hip_right": "metres: gun origin right of the camera at the hip",
     "hip_up": "metres up (negative is down)",
     "hip_forward": "metres in front",
-    "aim_forward": "metres from the eye to the rear of sight_part when aiming"
+    "aim_forward": "metres from the eye to the rear of sight_part when aiming",
+    "aim_eye_above_cm": "cm the eye sits above the top of sight_part when aiming",
+    "rig_camera_cm": "x y z added to the arms camera for this gun, Unreal component axes (y forward, z up)",
+    "anim_skeleton": "bodycam path of the skeleton the gun-side animations are made for",
+    "spare_magazine_bone": "bone of anim_skeleton that carries the fresh magazine during a reload, or empty"
   },
   "rows": [
     {
@@ -77,12 +81,20 @@
       "sound_reload_empty": "glock_reload_empty",
       "sound_reload_partial": "glock_reload_partial",
       "sound_equip": "glock_equip",
-      "verified": "model, texture, sockets and mag_row checked against the installed game with the Dump test (2026-10-07); damage, spread and recoil are this mod\u2019s own tuning for Minecraft mobs (12 so two body shots drop a zombie through its 2 armour)",
       "sight_part": "glock17_slide",
       "hip_right": 0.1,
       "hip_up": -0.115,
       "hip_forward": 0.38,
-      "aim_forward": 0.33
+      "aim_forward": 0.33,
+      "aim_eye_above_cm": 0.3,
+      "rig_camera_cm": [
+        0,
+        0,
+        0
+      ],
+      "anim_skeleton": "Bodycam/Content/BodycamWeapons/Guns/Glock17/SKM_Glock17_Skeleton",
+      "spare_magazine_bone": "magazine_spare",
+      "verified": "model, texture, sockets and mag_row checked against the installed game with the Dump test (2026-10-07); damage, spread and recoil are this mod’s own tuning for Minecraft mobs (12 so two body shots drop a zombie through its 2 armour)"
     },
     {
       "id": "m4a1",
@@ -129,7 +141,15 @@
       "sound_reload_empty": "m4_reload_empty",
       "sound_reload_partial": "m4_reload_partial",
       "sound_equip": "m4_equip",
-      "verified": "model, texture, sockets and mag_row (30) read in game; in-game autotest 2026-10-07 (PASS): automatic fire used 6 rounds; hip and aimed screenshots looked at; damage, spread, recoil and hold are this mod\u2019s own tuning; the aimed view is rough"
+      "aim_eye_above_cm": 4.5,
+      "rig_camera_cm": [
+        0,
+        -10,
+        7
+      ],
+      "anim_skeleton": "Bodycam/Content/BodycamWeapons/Guns/M4A1/M4_Skeleton",
+      "spare_magazine_bone": "magazine_spare",
+      "verified": "model, texture, sockets and mag_row (30) read in game; in-game autotest 2026-10-07 (PASS): automatic fire used 6 rounds; hip and aimed screenshots looked at; damage, spread, recoil and hold are this mod’s own tuning; the aimed view is rough"
     }
   ]
 }

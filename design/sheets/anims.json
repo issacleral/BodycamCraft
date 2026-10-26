@@ -1,0 +1,118 @@
+{
+  "_sheet": "Bodycam's first-person arm animations per gun. Reload variants line up one to one with the variants of the weapon's reload sound.",
+  "_columns": {
+    "id": "key",
+    "weapon": "ref weapons.id",
+    "kind": "idle|aim|reload_empty|reload_partial",
+    "paths": "bodycam path list",
+    "gun_paths": "bodycam path list: the gun-side animation for each entry of paths (same order), or empty"
+  },
+  "rows": [
+    {
+      "id": "glock_idle",
+      "weapon": "glock17",
+      "kind": "idle",
+      "paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_Idle_Loop01"
+      ],
+      "gun_paths": [],
+      "verified": "autotest 2026-10-26: Glock held two-handed at the hip"
+    },
+    {
+      "id": "glock_aim",
+      "weapon": "glock17",
+      "kind": "aim",
+      "paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_Aim_Idle_Loop"
+      ],
+      "gun_paths": [],
+      "verified": "autotest 2026-10-26: sights lined up on the target while aiming"
+    },
+    {
+      "id": "glock_reload_empty",
+      "weapon": "glock17",
+      "kind": "reload_empty",
+      "paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_reloadEmpty_Calm01",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_reloadEmpty_Calm02",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_reloadEmpty_Calm03",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_reloadEmpty_Calm04"
+      ],
+      "gun_paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Weapon/A_W_Glock_reloadEmpty_Calm01",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Weapon/A_W_Glock_reloadEmpty_Calm02",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Weapon/A_W_Glock_reloadEmpty_Calm03",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Weapon/A_W_Glock_reloadEmpty_Calm04"
+      ],
+      "verified": "pending: Calm01 posed in the Python prototype with the Glock in hand; not yet seen in game"
+    },
+    {
+      "id": "glock_reload_partial",
+      "weapon": "glock17",
+      "kind": "reload_partial",
+      "paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_reloadPartial_Calm01",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_reloadPartial_Calm02",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_reloadPartial_Calm03",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_reloadPartial_Calm04"
+      ],
+      "gun_paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Weapon/A_W_Glock_reloadPartial_Calm01",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Weapon/A_W_Glock_reloadPartial_Calm02",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Weapon/A_W_Glock_reloadPartial_Calm03",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Weapon/A_W_Glock_reloadPartial_Calm04"
+      ],
+      "verified": "autotest 2026-10-26: arms and gun animations together: magazine out, left hand brings the fresh one in"
+    },
+    {
+      "id": "m4_idle",
+      "weapon": "m4a1",
+      "kind": "idle",
+      "paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Character/A_FP_M4A1_Idle_Loop01"
+      ],
+      "gun_paths": [],
+      "verified": "autotest 2026-10-26: rifle at chest height, lower right, after the rig camera change"
+    },
+    {
+      "id": "m4_aim",
+      "weapon": "m4a1",
+      "kind": "aim",
+      "paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Character/A_FP_M4A1_Aim_Idle_Loop"
+      ],
+      "gun_paths": [],
+      "verified": "autotest 2026-10-26: looking along the rail, front sight on the target"
+    },
+    {
+      "id": "m4_reload_empty",
+      "weapon": "m4a1",
+      "kind": "reload_empty",
+      "paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Character/A_FP_M4A1_ReloadEmpty_Calm01",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Character/A_FP_M4A1_ReloadEmpty_Calm02",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Character/A_FP_M4A1_ReloadEmpty_Calm03"
+      ],
+      "gun_paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Weapon/A_W_M4A1_ReloadEmpty_Calm01",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Weapon/A_W_M4A1_ReloadEmpty_Calm02",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Weapon/A_W_M4A1_ReloadEmpty_Calm03"
+      ],
+      "verified": "pending: Calm01 decoded in the Python prototype; not yet seen in game"
+    },
+    {
+      "id": "m4_reload_partial",
+      "weapon": "m4a1",
+      "kind": "reload_partial",
+      "paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Character/A_FP_M4A1_ReloadPartial_Calm01",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Character/A_FP_M4A1_ReloadPartial_Calm02"
+      ],
+      "gun_paths": [
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Weapon/A_W_M4A1_ReloadPartial_Calm01",
+        "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Weapon/A_W_M4A1_ReloadPartial_Calm02"
+      ],
+      "verified": "pending: not yet seen in game"
+    }
+  ]
+}

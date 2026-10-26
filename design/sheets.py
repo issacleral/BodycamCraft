@@ -153,6 +153,18 @@ def preflight(sheets, quiet=False):
         if weapon and row["motion"] == "slide" and weapon["slide_part"] != row["id"]:
             problems.append("parts.%s: motion is slide but weapons.%s.slide_part is %s" % (row["id"], weapon["id"], weapon["slide_part"]))
 
+    sound_ids = {s["id"]: s for s in sheets["sounds"]["rows"]}
+    for anim in sheets["anims"]["rows"]:
+        weapon = next((w for w in sheets["weapons"]["rows"] if w["id"] == anim["weapon"]), None)
+        if weapon and anim["kind"] in ("reload_empty", "reload_partial"):
+            sound = sound_ids.get(weapon["sound_" + anim["kind"]])
+            if sound and len(sound["paths"]) != len(anim["paths"]):
+                problems.append("anims.%s: %d variants but sound %s has %d" % (anim["id"], len(anim["paths"]), sound["id"], len(sound["paths"])))
+        if anim["gun_paths"] and len(anim["gun_paths"]) != len(anim["paths"]):
+            problems.append("anims.%s: %d gun_paths for %d paths" % (anim["id"], len(anim["gun_paths"]), len(anim["paths"])))
+        elif anim["kind"] not in ("idle", "aim", "reload_empty", "reload_partial"):
+            problems.append("anims.%s.kind: unknown kind %s" % (anim["id"], anim["kind"]))
+
     if not quiet:
         cells = sum(len(s["_columns"]) * len(s["rows"]) for s in sheets.values())
         print("%d sheets, %d rows, %d cells" % (len(sheets), sum(len(s["rows"]) for s in sheets.values()), cells))
@@ -196,23 +208,25 @@ def gen(sheets):
             "\t\t\tfloat damage, float headshotMultiplier, int rangeBlocks, float spreadHipDeg, float spreadAdsDeg,",
             "\t\t\tfloat recoilPitchDeg, float recoilYawDeg, String slidePart, float slideTravelCm, String magazinePart,",
             "\t\t\tint textureSize, List<String> soundFire, List<String> soundFireIndoor, String soundDry,",
-            "\t\t\tString soundReloadEmpty, String soundReloadPartial, String soundEquip, String sightPart, float hipRight, float hipUp, float hipForward, float aimForward) {", "\t}", ""]
+            "\t\t\tString soundReloadEmpty, String soundReloadPartial, String soundEquip, String sightPart, float hipRight, float hipUp, float hipForward, float aimForward,",
+            "\t\t\tfloat aimEyeAboveCm, List<Float> rigCameraCm, String animSkeleton, String spareMagazineBone) {", "\t}", ""]
     out.append("\tpublic static final List<Weapon> WEAPONS = List.of(")
     rows = []
     for w in weapons:
-        rows.append("\t\t\tnew Weapon(%s, %s, %s, %s, %s, %s,\n\t\t\t\t\t%s, %s, %s, %d, %s, %d,\n\t\t\t\t\t%sf, %sf, %d, %sf, %sf,\n\t\t\t\t\t%sf, %sf, %s, %sf, %s,\n\t\t\t\t\t%d, %s, %s, %s,\n\t\t\t\t\t%s, %s, %s, %s, %sf, %sf, %sf, %sf)" % (
+        rows.append("\t\t\tnew Weapon(%s, %s, %s, %s, %s, %s,\n\t\t\t\t\t%s, %s, %s, %d, %s, %d,\n\t\t\t\t\t%sf, %sf, %d, %sf, %sf,\n\t\t\t\t\t%sf, %sf, %s, %sf, %s,\n\t\t\t\t\t%d, %s, %s, %s,\n\t\t\t\t\t%s, %s, %s, %s, %sf, %sf, %sf, %sf,\n\t\t\t\t\t%sf, List.of(%s), %s, %s)" % (
             jstr(w["id"]), jstr(w["name"]), jstr(w["item"]), jstr(w["magazine_item"]), jstr(w["skeleton"]), jstr(w["material"]),
             jstr(w["muzzle_socket"]), jstr(w["mag_table"]), jstr(w["mag_row"]), w["mag_fallback"], "true" if w["fire_mode"] == "auto" else "false", w["fire_interval_ticks"],
             w["damage"], w["headshot_multiplier"], w["range_blocks"], w["spread_hip_deg"], w["spread_ads_deg"],
             w["recoil_pitch_deg"], w["recoil_yaw_deg"], jstr(w["slide_part"]), w["slide_travel_cm"], jstr(w["magazine_part"]),
             w["texture_size"], jlist(w["sound_fire"]), jlist(w["sound_fire_indoor"]), jstr(w["sound_dry"]),
-            jstr(w["sound_reload_empty"]), jstr(w["sound_reload_partial"]), jstr(w["sound_equip"]), jstr(w["sight_part"]), w["hip_right"], w["hip_up"], w["hip_forward"], w["aim_forward"]))
+            jstr(w["sound_reload_empty"]), jstr(w["sound_reload_partial"]), jstr(w["sound_equip"]), jstr(w["sight_part"]), w["hip_right"], w["hip_up"], w["hip_forward"], w["aim_forward"],
+            w["aim_eye_above_cm"], ", ".join("%sf" % float(v) for v in w["rig_camera_cm"]), jstr(w["anim_skeleton"]), jstr(w["spare_magazine_bone"])))
     out.append(",\n".join(rows) + ");")
     out.append("")
 
-    out += ["\tpublic record Part(String id, String weapon, String mesh, boolean skeletal, String socket, String motion, String socketSkeleton) {", "\t}", ""]
+    out += ["\tpublic record Part(String id, String weapon, String mesh, boolean skeletal, String socket, String motion, String socketSkeleton, String bone) {", "\t}", ""]
     out.append("\tpublic static final List<Part> PARTS = List.of(")
-    out.append(",\n".join("\t\t\tnew Part(%s, %s, %s, %s, %s, %s, %s)" % (jstr(p["id"]), jstr(p["weapon"]), jstr(p["mesh"]), "true" if p["kind"] == "skeletal" else "false", jstr(p["socket"]), jstr(p["motion"]), jstr(p["socket_skeleton"])) for p in parts) + ");")
+    out.append(",\n".join("\t\t\tnew Part(%s, %s, %s, %s, %s, %s, %s, %s)" % (jstr(p["id"]), jstr(p["weapon"]), jstr(p["mesh"]), "true" if p["kind"] == "skeletal" else "false", jstr(p["socket"]), jstr(p["motion"]), jstr(p["socket_skeleton"]), jstr(p["bone"])) for p in parts) + ");")
     out.append("")
 
     out += ["\tpublic record Sound(String id, List<String> paths, float volume, float pitchJitter) {", "\t}", ""]
@@ -228,6 +242,20 @@ def gen(sheets):
     out += ["\tpublic record Kit(String id, String item, int count, int slot, boolean loaded) {", "\t}", ""]
     out.append("\tpublic static final List<Kit> KIT = List.of(")
     out.append(",\n".join("\t\t\tnew Kit(%s, %s, %d, %d, %s)" % (jstr(k["id"]), jstr(k["item"]), k["count"], k["slot"], "true" if k["loaded"] else "false") for k in kit) + ");")
+    out.append("")
+
+    out += ["\tpublic record Arms(String id, String mesh, String skeleton, List<String> materials, int textureSize, String cameraBone,",
+            "\t\t\tList<Float> cameraOffsetCm, String gunBone) {", "\t}", ""]
+    out.append("\tpublic static final List<Arms> ARMS = List.of(")
+    out.append(",\n".join("\t\t\tnew Arms(%s, %s, %s, %s, %d, %s,\n\t\t\t\t\tList.of(%s), %s)" % (
+        jstr(a["id"]), jstr(a["mesh"]), jstr(a["skeleton"]), jlist(a["materials"]), a["texture_size"], jstr(a["camera_bone"]),
+        ", ".join("%sf" % float(v) for v in a["camera_offset_cm"]), jstr(a["gun_bone"])) for a in sheets["arms"]["rows"]) + ");")
+    out.append("")
+
+    out += ["\tpublic record Anim(String id, String weapon, String kind, List<String> paths, List<String> gunPaths) {", "\t}", ""]
+    out.append("\tpublic static final List<Anim> ANIMS = List.of(")
+    out.append(",\n".join("\t\t\tnew Anim(%s, %s, %s, %s, %s)" % (jstr(a["id"]), jstr(a["weapon"]), jstr(a["kind"]), jlist(a["paths"]), jlist(a["gun_paths"]))
+                          for a in sheets["anims"]["rows"]) + ");")
     out.append("")
 
     out.append("\t/** The camera sheet: one constant per number, named ROW_PARAM. */")

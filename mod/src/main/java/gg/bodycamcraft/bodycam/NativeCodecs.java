@@ -10,12 +10,15 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
 /**
- * The two small native decoders the Bodycam files need: Oodle blocks (bcoodle.dll, built from the MIT oozextract
- * crate) and Bink Audio (bcbinka.dll, built from the ISC decoder in vgmstream). Both ship inside the mod jar.
+ * The small native decoders the Bodycam files need: Oodle blocks (bcoodle.dll, built from the MIT oozextract
+ * crate), Bink Audio (bcbinka.dll, built from the ISC decoder in vgmstream) and ACL animations (bcacl.dll, built
+ * from the MIT Animation Compression Library). All ship inside the mod jar.
  */
 public final class NativeCodecs {
 	private static Function oodle;
 	private static Function binka;
+	private static Function aclInfo;
+	private static Function aclDecode;
 
 	private NativeCodecs() {
 	}
@@ -27,6 +30,9 @@ public final class NativeCodecs {
 		Files.createDirectories(dir);
 		oodle = NativeLibrary.getInstance(unpack(dir, "bcoodle.dll").toString()).getFunction("bcoodle_decompress");
 		binka = NativeLibrary.getInstance(unpack(dir, "bcbinka.dll").toString()).getFunction("bcbinka_decode");
+		NativeLibrary acl = NativeLibrary.getInstance(unpack(dir, "bcacl.dll").toString());
+		aclInfo = acl.getFunction("bcacl_info");
+		aclDecode = acl.getFunction("bcacl_decode");
 	}
 
 	private static Path unpack(Path dir, String name) throws IOException {
@@ -55,5 +61,15 @@ public final class NativeCodecs {
 	/** Decodes a UE Bink Audio packet stream to interleaved 16-bit PCM; returns sample frames or a negative error. */
 	static int binka(byte[] packets, int sampleRate, int channels, short[] dst, int maxFrames) {
 		return binka.invokeInt(new Object[] {packets, packets.length, sampleRate, channels, dst, maxFrames});
+	}
+
+	/** Reads an ACL buffer's header: info = tracks, samples, floats per track per sample, ACL version. Returns 0 if valid. */
+	static int aclInfo(byte[] buffer, int[] info, float[] rate) {
+		return aclInfo.invokeInt(new Object[] {buffer, (long) buffer.length, info, rate});
+	}
+
+	/** Decompresses every sample of an ACL buffer into {@code out}; returns the floats written or a negative error. */
+	static long aclDecode(byte[] buffer, float[] out) {
+		return aclDecode.invokeLong(new Object[] {buffer, (long) buffer.length, out, (long) out.length});
 	}
 }

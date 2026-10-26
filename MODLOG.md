@@ -52,6 +52,26 @@ own mobs. Solo. Host = Minecraft Java (Fabric), Bodycam = content source read fr
   bones (reference skeleton = [n][name, parent]*n then [n] double transforms, name map of 158 after); track indices
   >= 158 are virtual bones and can be ignored for the arms. Verified: Glock reloadEmpty_Calm01 posed on the
   skeleton draws a two-handed grip, the left hand going to the belt and back, and the same pose at both ends.
-  Not yet: curves, additive anims (Fire carries scale 0 = additive deltas), the gun-side A_W_ tracks, Java side.
+  Not yet: curves, additive anims (Fire carries scale 0 = additive deltas), the gun-side A_W_ tracks.
+- Step 3a (2026-10-26): arms in game. Skeleton has 21 virtual bones stored as 26-byte elements [2][source][target][name]
+  ("VB ..."), index 158+i in element order; a VB hangs off its source with the target's ref transform. Gun origin =
+  ik_hand_gun (== VB ik_hand_gun) with no offset; the camera = head + (0, 0, -4) cm looking along +Y (the FP_Camera
+  socket and VB CameraPoint did not give a usable view). Arms mesh: 3 sections (MI_Arms, MI_Gloves, MI_Sleeves), each
+  with its own bone map; skin weights after the UVs, 4 x u8 bone + 4 x u8 weight per vertex. Sheets arms.json and
+  anims.json; RigReader / ArmsAssets / ArmsRenderer (CPU skinning, 22,642 vertices). While aiming the whole rig turns
+  and shifts so the sight sits on the view axis. Autotest PASS; Glock hip/aim/reload look right. M4A1: hands on the
+  rifle, but too close to the camera and the stock fills the aimed view (to tune).
+- M4A1 tuning (2026-10-26): the rifle anims hold it shouldered (right hand 12 cm from the head), so weapons now have
+  rig_camera_cm (M4A1: 0, -10, 7) and aim_eye_above_cm (M4A1 4.5: its sight_part is the flat-top frame, the eye has
+  to sit above the rail or the stock fills the view; Glock 0.3, the old global drop, now removed from camera.json).
+- Step 3b (2026-10-26): gun-side animations (A_W_*) play with the arms, same variant and moment. They are made for a
+  skeleton that is not always the one the gun is assembled from (M4A1: M4_Skeleton, 34 bones, not M4A1A_Skeleton),
+  hence weapons.anim_skeleton. Parts name the bone they follow (parts.bone); a part's transform is
+  animated(bone) * inverse(reference(bone)), mapped to model space like the arms. Bodycam hides magazines with a scale
+  track of 0. The fresh magazine is the magazine part drawn again on magazine_spare (weapons.spare_magazine_bone).
+  Verified on the Glock partial reload: magazine out, the left hand pushes the fresh one in. M4A1 reload not looked at.
+- Python: the Microsoft Store python behind tools/pyenv stopped starting (even `print(1)` hangs). tools/py312 is a uv
+  venv on a uv-managed CPython 3.12.11 with numpy and Pillow; use it for design/sheets.py and recon. Heredocs with
+  backslashes still get mangled by the shell: edit Python files with the editor, not with `python - <<EOF` patches.
 - bcoodle.dll must be built with path remapping (CARGO_ENCODED_RUSTFLAGS --remap-path-prefix for the home and project
   folders, project last) or the Rust panic strings carry the builder's Windows user name and folders. 0.1.0 had them; 0.1.1 does not.

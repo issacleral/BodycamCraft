@@ -12,7 +12,8 @@ public final class Sheets {
 			float damage, float headshotMultiplier, int rangeBlocks, float spreadHipDeg, float spreadAdsDeg,
 			float recoilPitchDeg, float recoilYawDeg, String slidePart, float slideTravelCm, String magazinePart,
 			int textureSize, List<String> soundFire, List<String> soundFireIndoor, String soundDry,
-			String soundReloadEmpty, String soundReloadPartial, String soundEquip, String sightPart, float hipRight, float hipUp, float hipForward, float aimForward) {
+			String soundReloadEmpty, String soundReloadPartial, String soundEquip, String sightPart, float hipRight, float hipUp, float hipForward, float aimForward,
+			float aimEyeAboveCm, List<Float> rigCameraCm, String animSkeleton, String spareMagazineBone) {
 	}
 
 	public static final List<Weapon> WEAPONS = List.of(
@@ -21,29 +22,31 @@ public final class Sheets {
 					12.0f, 2.5f, 96, 1.4f, 0.2f,
 					2.4f, 0.9f, "glock17_slide", 2.6f, "glock17_magazine",
 					512, List.of("glock_fire_core", "glock_fire_punch_outdoor", "glock_fire_tail_outdoor", "glock_mech"), List.of("glock_fire_core", "glock_fire_punch_indoor", "glock_fire_tail_indoor", "glock_mech"), "glock_dry",
-					"glock_reload_empty", "glock_reload_partial", "glock_equip", "glock17_slide", 0.1f, -0.115f, 0.38f, 0.33f),
+					"glock_reload_empty", "glock_reload_partial", "glock_equip", "glock17_slide", 0.1f, -0.115f, 0.38f, 0.33f,
+					0.3f, List.of(0.0f, 0.0f, 0.0f), "Bodycam/Content/BodycamWeapons/Guns/Glock17/SKM_Glock17_Skeleton", "magazine_spare"),
 			new Weapon("m4a1", "M4A1", "m4a1", "m4a1_magazine", "Bodycam/Content/BodycamWeapons/Guns/M4A1/M4A1A_Skeleton", "Bodycam/Content/BodycamWeapons/Guns/M4A1/M_M4A1",
 					"Barrel", "Bodycam/Content/BodycamWeapons/Core/DATA/DT/DT_MAG", "M4A1", 30, true, 2,
 					13.0f, 2.5f, 128, 1.0f, 0.25f,
 					1.3f, 0.45f, "", 0.0f, "m4a1_magazine",
 					512, List.of("m4_fire_core", "rifle_fire_punch_outdoor", "rifle_fire_tail_outdoor", "rifle_mech"), List.of("m4_fire_core", "rifle_fire_punch_indoor", "rifle_fire_tail_indoor", "rifle_mech"), "rifle_mech",
-					"m4_reload_empty", "m4_reload_partial", "m4_equip", "m4a1_frame", 0.11f, -0.2f, 0.3f, 0.03f));
+					"m4_reload_empty", "m4_reload_partial", "m4_equip", "m4a1_frame", 0.11f, -0.2f, 0.3f, 0.03f,
+					4.5f, List.of(0.0f, -10.0f, 7.0f), "Bodycam/Content/BodycamWeapons/Guns/M4A1/M4_Skeleton", "magazine_spare"));
 
-	public record Part(String id, String weapon, String mesh, boolean skeletal, String socket, String motion, String socketSkeleton) {
+	public record Part(String id, String weapon, String mesh, boolean skeletal, String socket, String motion, String socketSkeleton, String bone) {
 	}
 
 	public static final List<Part> PARTS = List.of(
-			new Part("glock17_frame", "glock17", "Bodycam/Content/BodycamWeapons/Guns/Glock17/SKM_Glock17", true, "", "none", ""),
-			new Part("glock17_slide", "glock17", "Bodycam/Content/BodycamWeapons/Guns/Glock17/Glock17_Default_Slide", false, "Slide", "slide", ""),
-			new Part("glock17_barrel", "glock17", "Bodycam/Content/BodycamWeapons/Guns/Glock17/Glock17_Default_Barrel", false, "Threaded_Barrel", "none", ""),
-			new Part("glock17_magazine", "glock17", "Bodycam/Content/BodycamWeapons/Guns/Glock17/Glock17_Magazine", false, "magazine", "magazine", ""),
-			new Part("glock17_trigger", "glock17", "Bodycam/Content/BodycamWeapons/Guns/Glock17/Glock17_Default_Firemods", false, "Trigger", "none", ""),
-			new Part("m4a1_frame", "m4a1", "Bodycam/Content/BodycamWeapons/Guns/M4A1/M4A1", true, "", "none", ""),
-			new Part("m4a1_barrel", "m4a1", "Bodycam/Content/BodycamWeapons/Guns/M4A1/M4A1_Default_Barrel", false, "Barrel", "none", ""),
-			new Part("m4a1_grip", "m4a1", "Bodycam/Content/BodycamWeapons/Guns/M4A1/M4A1_Grip", false, "Grip", "none", ""),
-			new Part("m4a1_stock", "m4a1", "Bodycam/Content/BodycamWeapons/Guns/M4A1/M4A1_Stock", false, "Stock", "none", ""),
-			new Part("m4a1_magazine", "m4a1", "Bodycam/Content/BodycamWeapons/Guns/M4A1/M4A1_MAG", false, "Magazine", "magazine", ""),
-			new Part("m4a1_trigger", "m4a1", "Bodycam/Content/BodycamWeapons/Guns/M4A1/M4A1_Firemods", false, "Trigger", "none", "Bodycam/Content/BodycamWeapons/Guns/M4A1/M4_Skeleton"));
+			new Part("glock17_frame", "glock17", "Bodycam/Content/BodycamWeapons/Guns/Glock17/SKM_Glock17", true, "", "none", "", ""),
+			new Part("glock17_slide", "glock17", "Bodycam/Content/BodycamWeapons/Guns/Glock17/Glock17_Default_Slide", false, "Slide", "slide", "", "slide"),
+			new Part("glock17_barrel", "glock17", "Bodycam/Content/BodycamWeapons/Guns/Glock17/Glock17_Default_Barrel", false, "Threaded_Barrel", "none", "", ""),
+			new Part("glock17_magazine", "glock17", "Bodycam/Content/BodycamWeapons/Guns/Glock17/Glock17_Magazine", false, "magazine", "magazine", "", "magazine"),
+			new Part("glock17_trigger", "glock17", "Bodycam/Content/BodycamWeapons/Guns/Glock17/Glock17_Default_Firemods", false, "Trigger", "none", "", ""),
+			new Part("m4a1_frame", "m4a1", "Bodycam/Content/BodycamWeapons/Guns/M4A1/M4A1", true, "", "none", "", ""),
+			new Part("m4a1_barrel", "m4a1", "Bodycam/Content/BodycamWeapons/Guns/M4A1/M4A1_Default_Barrel", false, "Barrel", "none", "", ""),
+			new Part("m4a1_grip", "m4a1", "Bodycam/Content/BodycamWeapons/Guns/M4A1/M4A1_Grip", false, "Grip", "none", "", ""),
+			new Part("m4a1_stock", "m4a1", "Bodycam/Content/BodycamWeapons/Guns/M4A1/M4A1_Stock", false, "Stock", "none", "", ""),
+			new Part("m4a1_magazine", "m4a1", "Bodycam/Content/BodycamWeapons/Guns/M4A1/M4A1_MAG", false, "Magazine", "magazine", "", "magazine"),
+			new Part("m4a1_trigger", "m4a1", "Bodycam/Content/BodycamWeapons/Guns/M4A1/M4A1_Firemods", false, "Trigger", "none", "Bodycam/Content/BodycamWeapons/Guns/M4A1/M4_Skeleton", ""));
 
 	public record Sound(String id, List<String> paths, float volume, float pitchJitter) {
 	}
@@ -87,6 +90,27 @@ public final class Sheets {
 			new Kit("kit_rifle", "m4a1", 1, 2, true),
 			new Kit("kit_rifle_magazines", "m4a1_magazine", 3, 3, false));
 
+	public record Arms(String id, String mesh, String skeleton, List<String> materials, int textureSize, String cameraBone,
+			List<Float> cameraOffsetCm, String gunBone) {
+	}
+
+	public static final List<Arms> ARMS = List.of(
+			new Arms("fp_arms", "Bodycam/Content/BodycamSkin/Arms/Basic/SKM_HumanArmsLongSleeves_Morphers", "Bodycam/Content/AdvancedLocomotionV4/CharacterAssets/MannequinSkeleton/ALS_Mannequin_Skeleton", List.of("Bodycam/Content/BodycamSkin/Arms/Basic/Textures/MI_Arms", "Bodycam/Content/BodycamSkin/Arms/Basic/Textures/MI_Gloves", "Bodycam/Content/BodycamSkin/Arms/Basic/Textures/MI_Sleeves"), 1024, "head",
+					List.of(0.0f, 0.0f, -4.0f), "ik_hand_gun"));
+
+	public record Anim(String id, String weapon, String kind, List<String> paths, List<String> gunPaths) {
+	}
+
+	public static final List<Anim> ANIMS = List.of(
+			new Anim("glock_idle", "glock17", "idle", List.of("Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_Idle_Loop01"), List.of()),
+			new Anim("glock_aim", "glock17", "aim", List.of("Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_Aim_Idle_Loop"), List.of()),
+			new Anim("glock_reload_empty", "glock17", "reload_empty", List.of("Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_reloadEmpty_Calm01", "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_reloadEmpty_Calm02", "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_reloadEmpty_Calm03", "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_reloadEmpty_Calm04"), List.of("Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Weapon/A_W_Glock_reloadEmpty_Calm01", "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Weapon/A_W_Glock_reloadEmpty_Calm02", "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Weapon/A_W_Glock_reloadEmpty_Calm03", "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Weapon/A_W_Glock_reloadEmpty_Calm04")),
+			new Anim("glock_reload_partial", "glock17", "reload_partial", List.of("Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_reloadPartial_Calm01", "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_reloadPartial_Calm02", "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_reloadPartial_Calm03", "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Character/A_FP_Glock_reloadPartial_Calm04"), List.of("Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Weapon/A_W_Glock_reloadPartial_Calm01", "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Weapon/A_W_Glock_reloadPartial_Calm02", "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Weapon/A_W_Glock_reloadPartial_Calm03", "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/MGlock17/Weapon/A_W_Glock_reloadPartial_Calm04")),
+			new Anim("m4_idle", "m4a1", "idle", List.of("Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Character/A_FP_M4A1_Idle_Loop01"), List.of()),
+			new Anim("m4_aim", "m4a1", "aim", List.of("Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Character/A_FP_M4A1_Aim_Idle_Loop"), List.of()),
+			new Anim("m4_reload_empty", "m4a1", "reload_empty", List.of("Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Character/A_FP_M4A1_ReloadEmpty_Calm01", "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Character/A_FP_M4A1_ReloadEmpty_Calm02", "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Character/A_FP_M4A1_ReloadEmpty_Calm03"), List.of("Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Weapon/A_W_M4A1_ReloadEmpty_Calm01", "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Weapon/A_W_M4A1_ReloadEmpty_Calm02", "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Weapon/A_W_M4A1_ReloadEmpty_Calm03")),
+			new Anim("m4_reload_partial", "m4a1", "reload_partial", List.of("Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Character/A_FP_M4A1_ReloadPartial_Calm01", "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Character/A_FP_M4A1_ReloadPartial_Calm02"), List.of("Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Weapon/A_W_M4A1_ReloadPartial_Calm01", "Bodycam/Plugins/BodycamAnimationFramework/Content/Animations/M4a1/Weapon/A_W_M4A1_ReloadPartial_Calm02")));
+
 	/** The camera sheet: one constant per number, named ROW_PARAM. */
 	public static final class Cam {
 		public static final float LENS_FISHEYE = 0.3f;
@@ -111,7 +135,6 @@ public final class Sheets {
 		public static final float RECOIL_RECOVER_PER_TICK = 0.82f;
 		public static final float RECOIL_GUN_RETURN = 0.5f;
 		public static final float HUD_PEEK_TICKS = 50.0f;
-		public static final float HOLD_AIM_SIGHT_DROP = 0.003f;
 		public static final float HOLD_AIM_TICKS = 4.0f;
 
 		private Cam() {

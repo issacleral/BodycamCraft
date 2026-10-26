@@ -57,10 +57,10 @@ public final class MeshReader {
 		throw new IOException("No index buffer in " + path);
 	}
 
-	private record Streams(float[] positions, float[] normals, float[] uvs, int end) {
+	record Streams(float[] positions, float[] normals, float[] uvs, int end) {
 	}
 
-	private static int findPositions(ByteBuffer u, int start, int end, String path) throws IOException {
+	static int findPositions(ByteBuffer u, int start, int end, String path) throws IOException {
 		for (int o = start; o < end - 16; o++) {
 			if (u.getInt(o) == 12 && u.getInt(o + 8) == 12) {
 				int n = u.getInt(o + 4);
@@ -72,7 +72,7 @@ public final class MeshReader {
 		throw new IOException("No vertex buffer in " + path);
 	}
 
-	private static Streams vertexStreams(ByteBuffer u, int p, int n) throws IOException {
+	static Streams vertexStreams(ByteBuffer u, int p, int n) throws IOException {
 		float[] pos = new float[n * 3];
 		int o = p + 16;
 		for (int i = 0; i < pos.length; i++, o += 4) {
