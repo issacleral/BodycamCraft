@@ -174,6 +174,28 @@ public final class ArmsRenderer {
 		return spare;
 	}
 
+	private static final java.util.Map<String, java.util.Map<String, Matrix4f>> REST = new java.util.concurrent.ConcurrentHashMap<>();
+
+	/**
+	 * Where the animated parts of a gun sit at rest, as Bodycam's animations have it (the end of a normal shot), for
+	 * drawing the gun anywhere outside the first-person rig: dropped, in the inventory, in third person. Empty when the
+	 * arms or the animation are not loaded.
+	 */
+	public static java.util.Map<String, Matrix4f> restParts(ClientAssets.GunModel model) {
+		ArmsAssets.Rig rig = ArmsAssets.rig();
+		if (rig == null) {
+			return java.util.Map.of();
+		}
+		return REST.computeIfAbsent(model.weapon.id(), id -> {
+			java.util.Map<String, Matrix4f> out = new java.util.HashMap<>();
+			java.util.List<RigReader.Anim> fire = rig.anims(id, "gun_fire");
+			if (!fire.isEmpty()) {
+				gunParts(rig, model, fire.get(0), fire.get(0).seconds(), out);
+			}
+			return out;
+		});
+	}
+
 	/** True when an animation moves, turns or hides a bone at some point (a constant track leaves the part alone). */
 	public static boolean moves(RigReader.Anim anim, int bone) {
 		int tracks = anim.trackBones().length;

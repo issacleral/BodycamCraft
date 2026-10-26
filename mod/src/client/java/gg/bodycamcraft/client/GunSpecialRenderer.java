@@ -84,7 +84,8 @@ public final class GunSpecialRenderer implements SpecialModelRenderer<Boolean> {
 				pose.translate(0, 0.02f, 0.05f);
 			}
 		}
-		GunRenderer.submit(collector, pose, model, light, 0, 0, only);
+		// The whole gun takes the rest pose of Bodycam's animations, so the magazine sits where it does in first person.
+		GunRenderer.submit(collector, pose, model, light, 0, 0, only, only == null ? ArmsRenderer.restParts(model) : java.util.Map.of(), null);
 		pose.popPose();
 	}
 
